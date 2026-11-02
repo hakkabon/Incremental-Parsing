@@ -12,7 +12,7 @@ final class SourceEditTests: XCTestCase {
 
         XCTAssertEqual(change.after.text, "axyb")
         XCTAssertEqual(change.after.revision, .init(8))
-        XCTAssertEqual(change.offsets.newOffset(forOldOffset: 3), 3)
+        XCTAssertEqual(change.newOffset(forOldOffset: 3), 3)
     }
 
     func testRejectsStaleAndInvalidEdits() {
@@ -30,5 +30,45 @@ final class SourceEditTests: XCTestCase {
         XCTAssertThrowsError(try SourceEdit(
             baseRevision: .init(0), range: SourceRange(0, 1), replacement: "")
             .applying(to: source))
+    }
+
+    func testAtomicBatchUsesSequentialUTF16CoordinatesAndOneRevision() throws {
+        let source = SourceSnapshot(text: "abc", revision: .init(4))
+        let batch = SourceEditBatch(baseRevision: .init(4), replacements: [
+            .init(range: SourceRange(1, 1), replacement: "X"),
+            .init(range: SourceRange(2, 3), replacement: "Y"),
+        ])
+
+        let change = try batch.applying(to: source)
+
+        XCTAssertEqual(change.after.text, "aXYc")
+        XCTAssertEqual(change.after.revision, .init(5))
+        XCTAssertTrue(change.isBatch)
+        XCTAssertEqual(change.newOffset(forOldOffset: 3), 4)
+        XCTAssertEqual(change.oldOffset(forNewOffset: 4), 3)
+    }
+
+    func testBatchRejectsAtomicallyWhenALaterReplacementIsInvalid() {
+        let source = SourceSnapshot(text: "abc")
+        let batch = SourceEditBatch(baseRevision: .init(0), replacements: [
+            .init(range: SourceRange(1, 1), replacement: "X"),
+            .init(range: SourceRange(99, 99), replacement: "Y"),
+        ])
+        XCTAssertThrowsError(try batch.applying(to: source))
+        XCTAssertEqual(source, SourceSnapshot(text: "abc"))
+    }
+
+    func testBatchCanPreserveAnExternalMonotonicRevision() throws {
+        let source = SourceSnapshot(text: "abc", revision: .init(4))
+        let change = try SourceEditBatch(
+            baseRevision: .init(4), resultRevision: .init(9),
+            replacements: [.init(range: SourceRange(3, 3), replacement: "d")]
+        ).applying(to: source)
+        XCTAssertEqual(change.after.revision, .init(9))
+
+        XCTAssertThrowsError(try SourceEditBatch(
+            baseRevision: .init(4), resultRevision: .init(4),
+            replacements: [.init(range: SourceRange(3, 3), replacement: "d")]
+        ).applying(to: source))
     }
 }

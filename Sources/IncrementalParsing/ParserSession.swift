@@ -32,6 +32,19 @@ public actor IncrementalParseSession<Parser: IncrementalParser> {
     @discardableResult
     public func apply(_ edit: SourceEdit) throws -> Parser.Output {
         let change = try edit.applying(to: snapshot)
+        return try apply(change)
+    }
+
+    /// Applies a sequence of editor changes atomically. All ranges are UTF-16
+    /// offsets interpreted sequentially, and the document revision advances
+    /// exactly once when the complete batch succeeds.
+    @discardableResult
+    public func apply(_ batch: SourceEditBatch) throws -> Parser.Output {
+        let change = try batch.applying(to: snapshot)
+        return try apply(change)
+    }
+
+    private func apply(_ change: SourceChange) throws -> Parser.Output {
         let output = try parser.parse(
             change.after, previous: result, change: change)
         snapshot = change.after

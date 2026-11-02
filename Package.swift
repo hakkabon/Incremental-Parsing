@@ -1,10 +1,11 @@
-// swift-tools-version: 6.1
+// swift-tools-version: 5.9
 import PackageDescription
 
 let package = Package(
     name: "IncrementalParsing",
     platforms: [
-        .macOS(.v13),
+        .macOS(.v11),
+        .iOS(.v14),
     ],
     products: [
         .library(name: "IncrementalParsing", targets: ["IncrementalParsing"]),

@@ -26,11 +26,13 @@ public enum RecoveryAction<TokenKind: Sendable & Hashable,
     case insert(TokenKind, at: Int)
     case delete(TokenID, range: SourceRange)
     case replace(TokenID, range: SourceRange, with: TokenKind)
+    case skip([TokenID], range: SourceRange)
 
     public var range: SourceRange {
         switch self {
         case let .insert(_, offset): SourceRange(location: offset, length: 0)
-        case let .delete(_, range), let .replace(_, range, _): range
+        case let .delete(_, range), let .replace(_, range, _),
+             let .skip(_, range): range
         }
     }
 }
@@ -40,13 +42,16 @@ public struct RecoveryStep<TokenKind: Sendable & Hashable,
     public let action: RecoveryAction<TokenKind, TokenID>
     public let expected: Set<TokenKind>
     public let cost: Int
+    public let diagnosticID: String?
 
     public init(action: RecoveryAction<TokenKind, TokenID>,
-                expected: Set<TokenKind> = [], cost: Int = 1) {
+                expected: Set<TokenKind> = [], cost: Int = 1,
+                diagnosticID: String? = nil) {
         precondition(cost > 0, "recovery steps must make positive progress")
         self.action = action
         self.expected = expected
         self.cost = cost
+        self.diagnosticID = diagnosticID
     }
 }
 

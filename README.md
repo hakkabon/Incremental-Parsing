@@ -11,9 +11,12 @@ or UI toolkit. In particular, parser packages must never depend on ModEdit.
 
 - immutable, revisioned source snapshots;
 - validated edits in UTF-16 coordinates (TextKit/LSP compatible);
+- atomic sequential edit batches with externally supplied monotonic revisions;
 - coordinate mapping across replacements;
 - a concurrency-safe incremental parse session and parser contract;
-- parser-neutral diagnostics and bounded recovery plans.
+- parser-neutral diagnostics and bounded recovery plans;
+- open reuse dimensions, stable fallback reasons, and artifact identities; and
+- an incremental-versus-clean differential campaign runner.
 
 Language-specific tokenization, grammar definitions, syntax trees, formatting,
 semantic analysis, and editor visualization belong in language or application
@@ -50,9 +53,15 @@ snapshot = change.after
 ```
 
 Implement `IncrementalParser` to receive the previous result and a validated
-`SourceChange`. When a client cannot describe an exact edit, the session passes
-`change: nil`, which is an explicit request for the parser's safe full-parse
-path.
+`SourceChange`. A change may contain one replacement or an atomic sequential
+batch; its composed mapping translates offsets across the complete transition.
+When a client cannot describe an exact edit, the session passes `change: nil`,
+which is an explicit request for the parser's safe full-parse path.
+
+`IncrementalExecutionEvidence` reports full, incremental, or fallback execution
+without exposing engine-owned state. Reuse remains multidimensional: token,
+parser-state, syntax, chart, forest, semantic, and IR counts are never blended
+into a single percentage. See [Contract consolidation](Docs/ContractConsolidation.md).
 
 ## Development
 
@@ -61,4 +70,4 @@ swift build
 swift test
 ```
 
-Swift 6.1 or newer is required.
+Swift 5.9 or newer is required.

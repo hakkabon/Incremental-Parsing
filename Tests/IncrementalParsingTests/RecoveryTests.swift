@@ -11,4 +11,12 @@ final class RecoveryTests: XCTestCase {
         XCTAssertEqual(plan.totalCost, 2)
         XCTAssertThrowsError(try RecoveryPlan(steps: [step], maximumCost: 1))
     }
+
+    func testSkipRetainsAffectedStableTokensAndDiagnosticLink() {
+        let step = RecoveryStep<Kind, Int>(
+            action: .skip([4, 5], range: SourceRange(10, 14)),
+            expected: [.semicolon], cost: 2, diagnosticID: "d1")
+        XCTAssertEqual(step.action.range, SourceRange(10, 14))
+        XCTAssertEqual(step.diagnosticID, "d1")
+    }
 }
