@@ -16,7 +16,9 @@ or UI toolkit. In particular, parser packages must never depend on ModEdit.
 - a concurrency-safe incremental parse session and parser contract;
 - parser-neutral diagnostics and bounded recovery plans;
 - open reuse dimensions, stable fallback reasons, and artifact identities; and
-- an incremental-versus-clean differential campaign runner.
+- an incremental-versus-clean differential campaign runner; and
+- host-qualified measurement reports, deterministic fingerprints, summaries,
+  and release quality gates.
 
 Language-specific tokenization, grammar definitions, syntax trees, formatting,
 semantic analysis, and editor visualization belong in language or application
@@ -63,11 +65,28 @@ without exposing engine-owned state. Reuse remains multidimensional: token,
 parser-state, syntax, chart, forest, semantic, and IR counts are never blended
 into a single percentage. See [Contract consolidation](Docs/ContractConsolidation.md).
 
+`IncrementalMeasurementRunner` productizes that evidence without turning this
+package into a benchmark suite. Language kits define named scenarios and invoke
+their real incremental and clean paths. The runner performs warmups, captures
+measured samples, aggregates each reuse dimension, and emits a verified JSON
+report. Its evidence fingerprint excludes host and time; its measurement
+fingerprint binds both. This lets front ends compare correctness across machines
+without pretending that their timings are comparable. See
+[Productization and measurement](Docs/ProductizationAndMeasurement.md).
+
 ## Development
 
 ```sh
 swift build
 swift test
+```
+
+Verified reports can be inspected or gated without an application dependency:
+
+```sh
+swift run incremental-report verify report.json
+swift run incremental-report compare modedit.json repl.json workbench.json
+swift run incremental-report gate report.json budgets.json
 ```
 
 Swift 5.9 or newer is required.

@@ -9,9 +9,13 @@ let package = Package(
     ],
     products: [
         .library(name: "IncrementalParsing", targets: ["IncrementalParsing"]),
+        .executable(name: "incremental-report", targets: ["IncrementalReportCLI"]),
     ],
     targets: [
         .target(name: "IncrementalParsing"),
+        .executableTarget(
+            name: "IncrementalReportCLI",
+            dependencies: ["IncrementalParsing"]),
         .testTarget(
             name: "IncrementalParsingTests",
             dependencies: ["IncrementalParsing"]),
