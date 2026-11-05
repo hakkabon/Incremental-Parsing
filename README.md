@@ -79,6 +79,11 @@ checkpoint evidence in PL/0 and Grammar-REPL. The current adoption matrix and
 the deliberately disclosed Earley/Compiler gaps are recorded in
 [Ecosystem adoption alignment](Docs/AdoptionAlignment.md).
 
+The PL/0 product campaign now runs the same accepted, recovery, incremental
+lexer, LL, LR, Earley-disclosure, and semantic scenarios through ModEdit,
+Grammar-REPL, and Grammar-Workbench. See
+[Product campaign](Docs/ProductCampaign.md).
+
 ## Development
 
 ```sh

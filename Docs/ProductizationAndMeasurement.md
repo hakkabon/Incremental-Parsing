@@ -63,7 +63,7 @@ instead of being interpreted as zero or success.
 
 ## Adoption by the ecosystem
 
-1. `PL0-LanguageKit` should define the first product campaign from its accepted,
+1. `PL0-LanguageKit` defines the first product campaign from its accepted,
    recovery, and edit corpora. A future Pascal kit should reuse the same shape;
    the effort required to author those scenarios is itself platform feedback.
 2. Lexer, LL, LR, Earley, RNGLR, and Compiler continue publishing their native
@@ -84,3 +84,7 @@ comparable, and `gate` evaluates a JSON array of measurement budgets.
 
 This leaves the dependency direction intact: parser packages do not depend on
 ModEdit, and the shared foundation does not acquire language or UI knowledge.
+
+Phase 16 implements these adoption points for PL/0. See
+[Product campaign](ProductCampaign.md) for the scenario matrix, product entry
+points, and release-gate policy.
