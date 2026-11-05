@@ -74,6 +74,11 @@ fingerprint binds both. This lets front ends compare correctness across machines
 without pretending that their timings are comparable. See
 [Productization and measurement](Docs/ProductizationAndMeasurement.md).
 
+The coordinated workspace now uses one local source graph and adopts native LR
+checkpoint evidence in PL/0 and Grammar-REPL. The current adoption matrix and
+the deliberately disclosed Earley/Compiler gaps are recorded in
+[Ecosystem adoption alignment](Docs/AdoptionAlignment.md).
+
 ## Development
 
 ```sh
