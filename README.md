@@ -18,7 +18,9 @@ or UI toolkit. In particular, parser packages must never depend on ModEdit.
 - open reuse dimensions, stable fallback reasons, and artifact identities; and
 - an incremental-versus-clean differential campaign runner; and
 - host-qualified measurement reports, deterministic fingerprints, summaries,
-  and release quality gates.
+  and release quality gates; and
+- a UI-neutral language-provider/session API shared by external language kits
+  and permanently bundled application languages.
 
 Language-specific tokenization, grammar definitions, syntax trees, formatting,
 semantic analysis, and editor visualization belong in language or application
@@ -83,6 +85,10 @@ The PL/0 product campaign now runs the same accepted, recovery, incremental
 lexer, LL, LR, Earley-disclosure, and semantic scenarios through ModEdit,
 Grammar-REPL, and Grammar-Workbench. See
 [Product campaign](Docs/ProductCampaign.md).
+
+External language kits and application-bundled languages now share the same
+revisioned provider/session boundary. See
+[Unified language-provider API](Docs/UnifiedLanguageProvider.md).
 
 ## Development
 
