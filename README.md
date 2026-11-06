@@ -96,6 +96,11 @@ Grammar source and lexical execution now have one ownership path:
 kits provide only typed projections. See
 [Grammar and lexical pipeline](Docs/GrammarAndLexicalPipeline.md).
 
+The first independent language-kit trial now exercises that path with compact
+Pascal, including case-insensitive keywords, lossless incremental tokenization,
+generalized parsing, a portable provider and product measurements. See
+[Pascal language-kit trial](Docs/PascalLanguageKitTrial.md).
+
 ## Development
 
 ```sh
