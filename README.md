@@ -90,6 +90,12 @@ External language kits and application-bundled languages now share the same
 revisioned provider/session boundary. See
 [Unified language-provider API](Docs/UnifiedLanguageProvider.md).
 
+Grammar source and lexical execution now have one ownership path:
+`GrammarTokenizer` and `GrammarParser` produce an ordered lexical specification,
+`Lexer` executes it in both clean and restart-and-converge modes, and language
+kits provide only typed projections. See
+[Grammar and lexical pipeline](Docs/GrammarAndLexicalPipeline.md).
+
 ## Development
 
 ```sh
