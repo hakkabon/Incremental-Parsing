@@ -125,6 +125,12 @@ foundation, while Pascal independently adopts grammar-derived completion and
 semantic tokens through the same tooling-session boundary. See
 [Shared language tooling foundation](Docs/SharedLanguageTooling.md).
 
+ModEdit, Grammar-REPL, and the Grammar-Workbench SDK now consume that boundary
+through one revision-validating document lifecycle. ModEdit's permanent HTML,
+Markdown, and LaTeX providers use the same consumer API as external kits, and
+the REPL and Workbench publish explicit LR runtime convergence or ownership
+evidence. See [Consumer adoption and runtime convergence](Docs/ConsumerAdoptionAndRuntimeConvergence.md).
+
 ## Development
 
 ```sh
