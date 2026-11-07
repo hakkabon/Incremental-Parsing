@@ -17,6 +17,7 @@ or UI toolkit. In particular, parser packages must never depend on ModEdit.
 - parser-neutral diagnostics and bounded recovery plans;
 - open reuse dimensions, stable fallback reasons, and artifact identities; and
 - grammar-production reuse evidence for verified grammar revisions; and
+- project-module and linked-compiler-output reuse evidence; and
 - an incremental-versus-clean differential campaign runner; and
 - host-qualified measurement reports, deterministic fingerprints, summaries,
   and release quality gates; and
@@ -112,6 +113,11 @@ change sets, and fail-closed adoption paths in Lexer, Earley, RNGLR, and the
 Compiler. LR table changes remain deliberately conservative until generated
 states have a proven cross-grammar correspondence. See
 [Grammar-change incrementality](Docs/GrammarChangeIncrementality.md).
+
+Compiler now accepts atomic revisioned projects with stable modules and direct
+imports. Public-interface changes invalidate importers, implementation-only
+edits remain local, and equal whole-program IR retains linked-output identity.
+See [Project and compiler incrementality](Docs/ProjectAndCompilerIncrementality.md).
 
 ## Development
 

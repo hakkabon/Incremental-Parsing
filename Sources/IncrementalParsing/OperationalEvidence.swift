@@ -72,6 +72,8 @@ public struct ReuseDimension: RawRepresentable, Hashable, Codable, Sendable {
     public static let forestNodes = Self(rawValue: "forestNodes")
     public static let semanticNodes = Self(rawValue: "semanticNodes")
     public static let irNodes = Self(rawValue: "irNodes")
+    public static let compilerModules = Self(rawValue: "compilerModules")
+    public static let linkedOutputs = Self(rawValue: "linkedOutputs")
 }
 
 public struct ReuseMeasurement: Hashable, Codable, Sendable {

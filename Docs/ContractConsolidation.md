@@ -11,6 +11,7 @@ no grammar, token, syntax-tree, parser-algorithm, language, editor, or UI type.
 | UTF-16 snapshots, revisions, replacements, batches and offset maps | IncrementalParsing |
 | Artifact identity, reuse dimensions, execution strategy and fallback reason | IncrementalParsing |
 | Grammar-production reuse evidence across verified grammar revisions | IncrementalParsing |
+| Project-module and linked-output reuse evidence | IncrementalParsing |
 | Differential incremental-versus-clean validation | IncrementalParsing |
 | Portable parse trees, forests, diagnostics and parser results | Parser |
 | Stable token identity and restart/convergence | Lexer |
