@@ -78,6 +78,15 @@ public struct LanguageProviderDiagnostic: Hashable, Codable, Sendable {
     }
 }
 
+/// Parser-neutral repair evidence exposed at the language-provider boundary.
+/// Token positions are used because providers already publish the token stream;
+/// source ranges remain available on deletion diagnostics and tokens.
+public enum LanguageProviderRecoveryEdit: Hashable, Codable, Sendable {
+    case insert(terminal: String, atToken: Int)
+    case delete(terminal: String, atToken: Int)
+    case skip(terminals: [String], fromToken: Int)
+}
+
 /// Evidence is named by operation so consumers never merge unlike native
 /// units into a single reuse number.
 public struct LanguageProviderOperationEvidence: Hashable, Codable, Sendable {
@@ -97,6 +106,7 @@ public struct LanguageProviderAnalysis: Hashable, Codable, Sendable {
     public let artifact: IncrementalArtifactIdentity?
     public let tokens: [LanguageProviderToken]
     public let diagnostics: [LanguageProviderDiagnostic]
+    public let recoveryEdits: [LanguageProviderRecoveryEdit]
     public let operations: [LanguageProviderOperationEvidence]
 
     public init(
@@ -105,6 +115,7 @@ public struct LanguageProviderAnalysis: Hashable, Codable, Sendable {
         artifact: IncrementalArtifactIdentity? = nil,
         tokens: [LanguageProviderToken] = [],
         diagnostics: [LanguageProviderDiagnostic] = [],
+        recoveryEdits: [LanguageProviderRecoveryEdit] = [],
         operations: [LanguageProviderOperationEvidence] = []
     ) {
         precondition(!languageID.isEmpty, "provider analysis needs a language ID")
@@ -115,11 +126,44 @@ public struct LanguageProviderAnalysis: Hashable, Codable, Sendable {
         self.artifact = artifact
         self.tokens = tokens
         self.diagnostics = diagnostics
+        self.recoveryEdits = recoveryEdits
         self.operations = operations.sorted { $0.operation < $1.operation }
     }
 
     public func evidence(for operation: String) -> IncrementalExecutionEvidence? {
         operations.first { $0.operation == operation }?.evidence
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case languageID, revision, artifact, tokens, diagnostics, recoveryEdits, operations
+    }
+
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        self.init(
+            languageID: try values.decode(String.self, forKey: .languageID),
+            revision: try values.decode(SourceRevision.self, forKey: .revision),
+            artifact: try values.decodeIfPresent(
+                IncrementalArtifactIdentity.self, forKey: .artifact),
+            tokens: try values.decodeIfPresent(
+                [LanguageProviderToken].self, forKey: .tokens) ?? [],
+            diagnostics: try values.decodeIfPresent(
+                [LanguageProviderDiagnostic].self, forKey: .diagnostics) ?? [],
+            recoveryEdits: try values.decodeIfPresent(
+                [LanguageProviderRecoveryEdit].self, forKey: .recoveryEdits) ?? [],
+            operations: try values.decodeIfPresent(
+                [LanguageProviderOperationEvidence].self, forKey: .operations) ?? [])
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var values = encoder.container(keyedBy: CodingKeys.self)
+        try values.encode(languageID, forKey: .languageID)
+        try values.encode(revision, forKey: .revision)
+        try values.encodeIfPresent(artifact, forKey: .artifact)
+        try values.encode(tokens, forKey: .tokens)
+        try values.encode(diagnostics, forKey: .diagnostics)
+        try values.encode(recoveryEdits, forKey: .recoveryEdits)
+        try values.encode(operations, forKey: .operations)
     }
 }
 

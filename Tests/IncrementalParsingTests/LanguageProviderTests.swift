@@ -9,6 +9,10 @@ final class LanguageProviderTests: XCTestCase {
             tokens: [.init(
                 range: .init(location: 0, length: 3),
                 classification: "keyword")],
+            recoveryEdits: [
+                .insert(terminal: ";", atToken: 1),
+                .delete(terminal: "noise", atToken: 2),
+            ],
             operations: [
                 .init(operation: "semantics", evidence: .init(
                     strategy: .incremental,
@@ -27,6 +31,7 @@ final class LanguageProviderTests: XCTestCase {
         XCTAssertEqual(
             analysis.evidence(for: "semantics")?.measurements.first?.dimension,
             .semanticNodes)
+        XCTAssertEqual(analysis.recoveryEdits.count, 2)
         XCTAssertEqual(try JSONDecoder().decode(
             LanguageProviderAnalysis.self,
             from: JSONEncoder().encode(analysis)), analysis)

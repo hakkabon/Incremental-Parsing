@@ -101,6 +101,11 @@ Pascal, including case-insensitive keywords, lossless incremental tokenization,
 generalized parsing, a portable provider and product measurements. See
 [Pascal language-kit trial](Docs/PascalLanguageKitTrial.md).
 
+Generalized recovery now uses one bounded deterministic repair search shared by
+Earley and RNGLR. Successful retries retain the owning engine's BSR/SPPF, and
+the Pascal trial exposes portable repair evidence through its language
+provider. See [Generalized recovery](Docs/GeneralizedRecovery.md).
+
 ## Development
 
 ```sh

@@ -32,11 +32,12 @@ grammar parser, scanner implementation, incremental token protocol adapters, or
 host-specific analysis contract. A named token wrapper is sufficient; a large
 hand-maintained token enum or macro is not required for this stage.
 
-Two limitations are deliberately visible. Incremental tokenization is native,
-but the Pascal Earley chart currently falls back to a full rebuild after an
-edit. Syntax failures have stable diagnostics but no repaired concrete syntax
-tree. Those gaps should remain explicit evidence rather than being hidden by a
-language-specific cache or recovery parser.
+Two limitations remain deliberately visible. Incremental tokenization is
+native, but the Pascal Earley chart currently falls back to a full rebuild
+after an edit. Phase 20 now gives syntax failures shared bounded repair,
+portable edits and a repaired native SPPF, but the kit does not yet project
+that forest into a typed Pascal recovery CST. Those gaps remain explicit
+evidence rather than being hidden by a language-specific cache or parser.
 
 ## Recommended continuation
 
@@ -44,6 +45,6 @@ language-specific cache or recovery parser.
    sourced conformance examples.
 2. Connect dependency-indexed Earley chart reuse to the actual construction
    loop, then rerun the Pascal campaign.
-3. Add parser-neutral recovery repair projection before building a Pascal CST.
+3. Project generalized repair provenance into a typed Pascal CST.
 4. Add a small semantic layer for declarations, scopes and type names.
 5. Only then add formatting and ModEdit-specific presentation adapters.
