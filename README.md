@@ -119,6 +119,12 @@ imports. Public-interface changes invalidate importers, implementation-only
 edits remain local, and equal whole-program IR retains linked-output identity.
 See [Project and compiler incrementality](Docs/ProjectAndCompilerIncrementality.md).
 
+Editor-neutral language mechanisms now live in the sibling `Language-Tooling`
+package. PL/0 projects its semantic graph and formatter mechanics into that
+foundation, while Pascal independently adopts grammar-derived completion and
+semantic tokens through the same tooling-session boundary. See
+[Shared language tooling foundation](Docs/SharedLanguageTooling.md).
+
 ## Development
 
 ```sh
