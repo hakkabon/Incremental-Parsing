@@ -16,6 +16,7 @@ or UI toolkit. In particular, parser packages must never depend on ModEdit.
 - a concurrency-safe incremental parse session and parser contract;
 - parser-neutral diagnostics and bounded recovery plans;
 - open reuse dimensions, stable fallback reasons, and artifact identities; and
+- grammar-production reuse evidence for verified grammar revisions; and
 - an incremental-versus-clean differential campaign runner; and
 - host-qualified measurement reports, deterministic fingerprints, summaries,
   and release quality gates; and
@@ -105,6 +106,12 @@ Generalized recovery now uses one bounded deterministic repair search shared by
 Earley and RNGLR. Successful retries retain the owning engine's BSR/SPPF, and
 the Pascal trial exposes portable repair evidence through its language
 provider. See [Generalized recovery](Docs/GeneralizedRecovery.md).
+
+Grammar revisions now have stable structural production identities, transitive
+change sets, and fail-closed adoption paths in Lexer, Earley, RNGLR, and the
+Compiler. LR table changes remain deliberately conservative until generated
+states have a proven cross-grammar correspondence. See
+[Grammar-change incrementality](Docs/GrammarChangeIncrementality.md).
 
 ## Development
 

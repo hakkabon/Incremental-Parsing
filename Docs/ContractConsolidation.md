@@ -10,6 +10,7 @@ no grammar, token, syntax-tree, parser-algorithm, language, editor, or UI type.
 |---|---|
 | UTF-16 snapshots, revisions, replacements, batches and offset maps | IncrementalParsing |
 | Artifact identity, reuse dimensions, execution strategy and fallback reason | IncrementalParsing |
+| Grammar-production reuse evidence across verified grammar revisions | IncrementalParsing |
 | Differential incremental-versus-clean validation | IncrementalParsing |
 | Portable parse trees, forests, diagnostics and parser results | Parser |
 | Stable token identity and restart/convergence | Lexer |
@@ -32,6 +33,8 @@ no grammar, token, syntax-tree, parser-algorithm, language, editor, or UI type.
   shared operational evidence.
 - Grammar-REPL accepts shared revisioned snapshots and truthfully describes its
   current full-validation path as fallback evidence.
+- Grammar computes structural fingerprints and transitive production change
+  sets; consumers validate both endpoints before retaining native state.
 
 ## Batch semantics
 

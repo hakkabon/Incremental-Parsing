@@ -64,6 +64,7 @@ public struct ReuseDimension: RawRepresentable, Hashable, Codable, Sendable {
     }
 
     public static let tokens = Self(rawValue: "tokens")
+    public static let grammarProductions = Self(rawValue: "grammarProductions")
     public static let parserStates = Self(rawValue: "parserStates")
     public static let syntaxNodes = Self(rawValue: "syntaxNodes")
     public static let chartColumns = Self(rawValue: "chartColumns")
