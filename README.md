@@ -131,6 +131,12 @@ Markdown, and LaTeX providers use the same consumer API as external kits, and
 the REPL and Workbench publish explicit LR runtime convergence or ownership
 evidence. See [Consumer adoption and runtime convergence](Docs/ConsumerAdoptionAndRuntimeConvergence.md).
 
+Earley-Parser's dependency arena now participates in live parsing: stable token
+prefixes retain real chart columns and BSR contributions, the changed suffix is
+rebuilt by the native scanner/predictor/completer loop, and PL/0 plus Pascal
+publish the resulting evidence. See
+[Live Earley incrementality](Docs/LiveEarleyIncrementality.md).
+
 ## Development
 
 ```sh

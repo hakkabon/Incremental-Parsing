@@ -15,7 +15,7 @@ ten scenarios:
 - restart-and-converge tokenization after an expression edit;
 - LL region reuse and LL recovery after local edits;
 - native LR stack resumption;
-- the explicitly disclosed Earley full-chart fallback; and
+- native Earley chart-column and dependency-indexed fact reuse; and
 - dependency-aware semantic binding reuse.
 
 Every measured result is compared with a fresh session over the same final

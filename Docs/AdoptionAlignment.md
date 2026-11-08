@@ -22,7 +22,7 @@ remote package having the same SwiftPM identity.
 |---|---|---|
 | PL0 reference parser | LL region cache and recovery replay | active |
 | PL0 generated LR | LR stack checkpoints | active; positioned tree remains a full projection |
-| PL0 Earley | dependency-indexed chart arena | not yet connected; explicit full-reparse fallback |
+| PL0 Earley | live dependency-indexed chart session | adopted; prefix columns and BSR are retained |
 | PL0 compiler | Compiler stable semantic/IR sessions | dependency aligned; PL/0 static-link semantics still use its own backend |
 | Grammar-REPL LR | LR stack checkpoints | active; positioned parse retained as differential oracle |
 | Grammar-Workbench LR | Workbench checkpoint runtime | active but still a parallel implementation |
@@ -49,7 +49,7 @@ without changing the public evidence contract.
 
 ## Remaining convergence work
 
-- connect `EarleyIncrementalChart` to scanner, predictor, and completer facts;
+- prove safe relocation for converged Earley suffix columns and forest extents;
 - connect `RNGLRIncrementalWorkspace` to live GSS/BSR/SPPF construction;
 - choose one package-owned LR runtime for Grammar-Workbench after preserving
   its recovery, replay, and source-range guarantees;
