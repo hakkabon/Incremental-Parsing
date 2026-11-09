@@ -26,7 +26,7 @@ remote package having the same SwiftPM identity.
 | PL0 compiler | Compiler stable semantic/IR sessions | dependency aligned; PL/0 static-link semantics still use its own backend |
 | Grammar-REPL LR | LR stack checkpoints | active; positioned parse retained as differential oracle |
 | Grammar-Workbench LR | Workbench checkpoint runtime | active but still a parallel implementation |
-| RNGLR consumers | GSS/SPPF arenas | facility available; parser-loop adoption remains |
+| RNGLR consumers | Live GSS/BSR/SPPF session | adopted by PL/0 ecosystem comparison; prefix state is retained and replay is differential-tested |
 
 No stable token prefix is reported as parser-state or chart reuse. Either an
 engine-owned facility supplies the measurement or the adapter publishes full
@@ -50,7 +50,7 @@ without changing the public evidence contract.
 ## Remaining convergence work
 
 - prove safe relocation for converged Earley suffix columns and forest extents;
-- connect `RNGLRIncrementalWorkspace` to live GSS/BSR/SPPF construction;
+- prove safe relocation for converged RNGLR suffix GSS and forest extents;
 - choose one package-owned LR runtime for Grammar-Workbench after preserving
   its recovery, replay, and source-range guarantees;
 - define a Compiler adapter that preserves PL/0 lexical-level/static-link

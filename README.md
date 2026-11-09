@@ -137,6 +137,12 @@ rebuilt by the native scanner/predictor/completer loop, and PL/0 plus Pascal
 publish the resulting evidence. See
 [Live Earley incrementality](Docs/LiveEarleyIncrementality.md).
 
+RNGLR-Parser now resumes its real graph-structured stack from a pre-reduction
+token boundary, retains safe BSR/forest state, and reports native graph, forest,
+and token evidence. PL/0's ecosystem comparison supplies stable lexer token
+identities to that live session. See
+[Live RNGLR incrementality](Docs/LiveRNGLRIncrementality.md).
+
 ## Development
 
 ```sh
