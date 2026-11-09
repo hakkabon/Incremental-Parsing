@@ -143,6 +143,12 @@ and token evidence. PL/0's ecosystem comparison supplies stable lexer token
 identities to that live session. See
 [Live RNGLR incrementality](Docs/LiveRNGLRIncrementality.md).
 
+Grammar replacement now has a revisioned campaign contract with atomic
+activation, clean-target validation, and fail-closed rejection. The PL/0 kit
+drives production-only, lexical, combined grammar/source, and invalid reloads
+through identical ModEdit, Grammar-REPL, and Grammar-Workbench entry points.
+See [Grammar hot-reload campaigns](Docs/GrammarHotReloadCampaigns.md).
+
 ## Development
 
 ```sh

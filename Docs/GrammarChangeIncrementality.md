@@ -46,11 +46,11 @@ change set over the lowered grammars, or maintain explicit source-to-lowered
 production provenance. Comparing source IDs directly with generated production
 IDs is not a safe shortcut.
 
-## Next adoption steps
+## Campaign adoption
 
-Grammar-REPL and Grammar-Workbench can now compute one verified change set when
-their grammar document changes and pass it to the selected lexer and parser.
-ModEdit and language kits can use the same path for live grammar development.
-The next deeper engine work is stable generated-state correspondence for LR and
-RNGLR, followed by end-to-end experiments that edit grammar and source in the
-same revisioned campaign.
+Phase 27 adds a shared hot-reload campaign runner and a PL/0 campaign consumed
+unchanged by ModEdit, Grammar-REPL, and Grammar-Workbench. It verifies the
+artifact chain, atomic rejection, retained document revision, engine evidence,
+and equivalence with clean target execution. The next deeper engine work is
+stable generated-state correspondence for LR and RNGLR, followed by live
+cross-grammar parser-session adoption where correctness can be proven.
