@@ -149,6 +149,12 @@ drives production-only, lexical, combined grammar/source, and invalid reloads
 through identical ModEdit, Grammar-REPL, and Grammar-Workbench entry points.
 See [Grammar hot-reload campaigns](Docs/GrammarHotReloadCampaigns.md).
 
+Pascal now provides an independent semantic/tooling adoption trial: stable
+declaration and reference identities feed the shared tooling index for
+completion, definition, references, hover, semantic tokens, and measured
+semantic reuse. See
+[Pascal semantic and tooling trial](Docs/PascalSemanticToolingTrial.md).
+
 ## Development
 
 ```sh
