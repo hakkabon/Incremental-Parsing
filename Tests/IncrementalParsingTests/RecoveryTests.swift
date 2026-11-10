@@ -2,6 +2,20 @@ import XCTest
 @testable import IncrementalParsing
 
 final class RecoveryTests: XCTestCase {
+    func testDiagnosticKeepsExpectationOrderAndIdentityWhenRelocated() {
+        let diagnostic = ParseDiagnostic(
+            severity: .error,
+            message: "expected expression",
+            range: SourceRange(location: 4, length: 1),
+            expected: ["identifier", "number"])
+
+        let relocated = diagnostic.relocated(by: 6)
+
+        XCTAssertEqual(diagnostic.expected, ["identifier", "number"])
+        XCTAssertEqual(relocated.id, diagnostic.id)
+        XCTAssertEqual(relocated.range, SourceRange(location: 10, length: 1))
+    }
+
     enum Kind: Hashable, Sendable { case identifier, semicolon }
 
     func testPlanEnforcesCostBudget() throws {

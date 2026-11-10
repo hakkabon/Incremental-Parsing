@@ -4,18 +4,29 @@ public enum DiagnosticSeverity: String, Sendable, Codable {
     case information
 }
 
-public struct ParseDiagnostic<Expected: Sendable & Hashable>: Sendable, Equatable {
+public struct ParseDiagnostic<Expected: Sendable & Hashable>: Sendable, Equatable,
+    Identifiable {
+    public let id: String
     public let severity: DiagnosticSeverity
     public let message: String
     public let range: SourceRange
-    public let expected: Set<Expected>
+    public let expected: [Expected]
 
-    public init(severity: DiagnosticSeverity, message: String,
-                range: SourceRange, expected: Set<Expected> = []) {
+    public init(id: String? = nil, severity: DiagnosticSeverity, message: String,
+                range: SourceRange, expected: [Expected] = []) {
+        self.id = id ?? "\(range.location):\(range.length):\(message)"
         self.severity = severity
         self.message = message
         self.range = range
         self.expected = expected
+    }
+
+    public func relocated(by delta: Int) -> Self {
+        Self(
+            id: id, severity: severity, message: message,
+            range: SourceRange(
+                location: range.location + delta, length: range.length),
+            expected: expected)
     }
 }
 

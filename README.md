@@ -188,6 +188,13 @@ conformances. PL/0 contains only explicitly named PL/0 implementation files,
 while Pascal independently exercises the shared lexical facade. See
 [Language-kit substrate extraction](Docs/LanguageKitSubstrateExtraction.md).
 
+Phase 34 converges diagnostics, ranges, source changes, and recovery projection
+at language-provider boundaries. It also introduces a parser-free
+`ModEdit-Bundled-Languages` distribution catalog: HTML, Markdown, and LaTeX are
+active permanent providers, while JSON, Grammar notation, Graphviz DOT, and CSS
+are reserved as independent language kits that ModEdit can bundle when ready.
+See [Contract convergence and bundled languages](Docs/ContractConvergenceAndBundledLanguages.md).
+
 ## Development
 
 ```sh
