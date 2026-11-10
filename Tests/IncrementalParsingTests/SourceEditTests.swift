@@ -2,6 +2,18 @@ import XCTest
 @testable import IncrementalParsing
 
 final class SourceEditTests: XCTestCase {
+    func testCompatibilityInputProjectsCanonicalRevisionAndRange() {
+        let input = IncrementalInputSnapshot(
+            version: 9, text: "abc",
+            edit: IncrementalInputEdit(
+                baseVersion: 8,
+                replacedRange: SourceRange(location: 1, length: 1),
+                replacementLength: 1))
+
+        XCTAssertEqual(input.canonical.revision, SourceRevision(9))
+        XCTAssertEqual(input.edit?.replacedRange.end, 2)
+    }
+
     func testEditUsesUTF16CoordinatesAndProducesMap() throws {
         let source = SourceSnapshot(text: "a😀b", revision: .init(7))
         let edit = SourceEdit(

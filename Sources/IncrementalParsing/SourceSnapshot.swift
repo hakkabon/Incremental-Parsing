@@ -28,6 +28,43 @@ public struct SourceSnapshot: Sendable, Hashable, Codable {
     public var utf16Count: Int { text.utf16.count }
 }
 
+/// Compatibility envelope for clients that receive a complete document and
+/// only a compact description of the edit that produced it. New code should
+/// prefer ``SourceSnapshot`` plus ``SourceChange``; this value exists at the
+/// platform layer so older language kits do not each reinvent it.
+public struct IncrementalInputSnapshot: Sendable, Equatable {
+    public let version: UInt64
+    public let text: String
+    public let edit: IncrementalInputEdit?
+
+    public init(version: UInt64, text: String,
+                edit: IncrementalInputEdit? = nil) {
+        self.version = version
+        self.text = text
+        self.edit = edit
+    }
+
+    public var canonical: SourceSnapshot {
+        SourceSnapshot(text: text, revision: SourceRevision(version))
+    }
+}
+
+/// Compact edit metadata paired with ``IncrementalInputSnapshot``. It does
+/// not contain replacement text and therefore cannot replace ``SourceEdit``.
+public struct IncrementalInputEdit: Sendable, Equatable {
+    public let baseVersion: UInt64?
+    public let replacedRange: SourceRange
+    public let replacementLength: Int
+
+    public init(baseVersion: UInt64? = nil, replacedRange: SourceRange,
+                replacementLength: Int) {
+        precondition(replacementLength >= 0)
+        self.baseVersion = baseVersion
+        self.replacedRange = replacedRange
+        self.replacementLength = replacementLength
+    }
+}
+
 public enum SourceEditError: Error, Sendable, Equatable {
     case staleRevision(expected: SourceRevision, actual: SourceRevision)
     case rangeOutOfBounds(range: SourceRange, sourceLength: Int)

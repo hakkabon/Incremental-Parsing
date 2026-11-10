@@ -180,6 +180,14 @@ to Language-Tooling. Provider diagnostics now cover syntax and semantics
 through the same interface used by Pascal. See
 [PL/0 surface reduction](Docs/PL0SurfaceReduction.md).
 
+Phase 33 extracts the remaining language-kit substrate. Incremental-Parsing
+now owns the canonical source position and compact compatibility input
+envelope; Parser owns generic language syntax and parse products; Lexer owns
+typed grammar-token projection; and LL-Parsing owns shared relocation
+conformances. PL/0 contains only explicitly named PL/0 implementation files,
+while Pascal independently exercises the shared lexical facade. See
+[Language-kit substrate extraction](Docs/LanguageKitSubstrateExtraction.md).
+
 ## Development
 
 ```sh

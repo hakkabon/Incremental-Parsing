@@ -21,9 +21,30 @@ public struct SourceRange: Sendable, Hashable, Codable {
 
     public var location: Int { lowerBound }
     public var length: Int { upperBound - lowerBound }
+    public var end: Int { upperBound }
     public var isEmpty: Bool { lowerBound == upperBound }
+
+    public static let zero = SourceRange(0, 0)
 
     public func contains(_ offset: Int) -> Bool {
         lowerBound <= offset && offset < upperBound
+    }
+}
+
+/// A source coordinate measured in UTF-16 code units, with one-based line and
+/// column values for presentation. Language kits should not define their own
+/// coordinate structures.
+public struct SourcePosition: Sendable, Hashable, Codable {
+    public let offset: Int
+    public let line: Int
+    public let column: Int
+
+    public init(offset: Int, line: Int, column: Int) {
+        precondition(offset >= 0)
+        precondition(line >= 1)
+        precondition(column >= 1)
+        self.offset = offset
+        self.line = line
+        self.column = column
     }
 }
