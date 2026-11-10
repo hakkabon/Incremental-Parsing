@@ -155,6 +155,13 @@ completion, definition, references, hover, semantic tokens, and measured
 semantic reuse. See
 [Pascal semantic and tooling trial](Docs/PascalSemanticToolingTrial.md).
 
+Compiler artifacts can now be materialized through a revisioned demand graph.
+Submitting syntax performs no compiler work; semantic, IR, linked-IR, and
+backend requests execute only their missing prerequisite chain and publish
+separate stage and bytecode-output evidence. The `comp` executable consumes
+this boundary directly. See
+[Demand-driven compiler pipeline](Docs/DemandDrivenCompilerPipeline.md).
+
 ## Development
 
 ```sh
