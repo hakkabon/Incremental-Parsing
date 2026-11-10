@@ -202,6 +202,11 @@ publish diagnostics, semantic tokens, and operation evidence through the
 shared provider API. JSON also provides structural recovery and formatting.
 See [Grammar and JSON providers](Docs/GrammarAndJSONProviders.md).
 
+Phase 36 adds independent Graphviz DOT and CSS language kits and activates the
+remaining reserved permanent providers. Parser now supplies shared balanced-
+delimiter recovery, while both kits use Lexer's incremental tokenizer and the
+unified tooling lifecycle. See [DOT and CSS providers](Docs/DOTAndCSSProviders.md).
+
 ## Development
 
 ```sh

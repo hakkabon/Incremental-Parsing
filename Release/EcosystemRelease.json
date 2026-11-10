@@ -25,8 +25,10 @@
     {"name":"JSON-LanguageKit","swiftPMIdentity":"json-languagekit","minimumVersion":"0.1.0","layer":3,"maturity":"experimental","dependencies":["Grammar","Lexer","Language-Tooling","Incremental-Parsing"]},
     {"name":"Grammar-LanguageKit","swiftPMIdentity":"grammar-languagekit","minimumVersion":"0.1.0","layer":3,"maturity":"experimental","dependencies":["Grammar","Lexer","Language-Tooling","Incremental-Parsing"]},
     {"name":"ModEdit-Bundled-Languages","swiftPMIdentity":"modedit-bundled-languages","minimumVersion":"0.1.0","layer":3,"maturity":"experimental","dependencies":[]},
+    {"name":"DOT-LanguageKit","swiftPMIdentity":"dot-languagekit","minimumVersion":"0.1.0","layer":3,"maturity":"experimental","dependencies":["Grammar","Lexer","Parser","Language-Tooling","Incremental-Parsing"]},
+    {"name":"CSS-LanguageKit","swiftPMIdentity":"css-languagekit","minimumVersion":"0.1.0","layer":3,"maturity":"experimental","dependencies":["Grammar","Lexer","Parser","Language-Tooling","Incremental-Parsing"]},
 
-    {"name":"ModEdit","swiftPMIdentity":"modedit","minimumVersion":"0.5.0","layer":4,"maturity":"stable","dependencies":["PL0-LanguageKit","JSON-LanguageKit","Grammar-LanguageKit","ModEdit-Bundled-Languages","Language-Tooling","Incremental-Parsing"]},
+    {"name":"ModEdit","swiftPMIdentity":"modedit","minimumVersion":"0.5.0","layer":4,"maturity":"stable","dependencies":["PL0-LanguageKit","JSON-LanguageKit","Grammar-LanguageKit","DOT-LanguageKit","CSS-LanguageKit","ModEdit-Bundled-Languages","Language-Tooling","Incremental-Parsing"]},
     {"name":"Grammar-REPL","swiftPMIdentity":"grammar-repl","minimumVersion":"0.9.0","layer":4,"maturity":"stable","dependencies":["Grammar","Lexer","Parser","LL-Parsing","LR-Parsing","Earley-Parser","Earley-TableParser","CYK-Parser","RNGLR-Parser","Compiler","PL0-LanguageKit","Language-Tooling","Incremental-Parsing"]},
     {"name":"Grammar-Workbench","swiftPMIdentity":"grammar-workbench","minimumVersion":"1.0.23","layer":4,"maturity":"stable","dependencies":["Grammar","Parser","LR-Parsing","PL0-LanguageKit","Language-Tooling","Incremental-Parsing"]}
   ],

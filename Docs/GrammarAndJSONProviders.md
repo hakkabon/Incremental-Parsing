@@ -30,7 +30,8 @@ publishes semantic tokens and deterministic pretty-printing.
 Both kits are independent packages with no ModEdit dependency. ModEdit adds
 only presentation formats and thin provider adapters. JSON and Grammar are now
 `bundledPermanent` providers, and the distribution catalog records their
-language-kit ownership. Graphviz DOT and CSS remain planned independent kits.
+language-kit ownership. Graphviz DOT and CSS were subsequently activated by
+Phase 36 as independent kits.
 
 This establishes the activation path for future bundled kits:
 

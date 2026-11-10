@@ -29,7 +29,7 @@ ModEdit validates its standard provider registry against the active catalog.
 - HTML, Markdown, and LaTeX are active ModEdit-owned providers.
 - JSON, Grammar notation, Graphviz DOT, and CSS were reserved as independent
   language-kit packages. JSON and Grammar were activated by Phase 35; DOT and
-  CSS remain planned.
+  CSS were activated by Phase 36.
 - PL/0 and Pascal remain independently installed external kits.
 
 The planned kits were not implemented by Phase 34. When each is ready,
