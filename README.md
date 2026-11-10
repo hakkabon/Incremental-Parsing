@@ -174,6 +174,12 @@ components. It pins compatibility floors and public schema ownership while
 leaving exact commit locks and platform artifacts to downstream release hosts.
 See [Release consolidation](Docs/ReleaseConsolidation.md).
 
+PL0-LanguageKit's first surface-reduction pass removes consumer-specific
+Workbench and LSP adapters and moves the language-neutral experiment protocol
+to Language-Tooling. Provider diagnostics now cover syntax and semantics
+through the same interface used by Pascal. See
+[PL/0 surface reduction](Docs/PL0SurfaceReduction.md).
+
 ## Development
 
 ```sh
