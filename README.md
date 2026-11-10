@@ -162,6 +162,12 @@ separate stage and bytecode-output evidence. The `comp` executable consumes
 this boundary directly. See
 [Demand-driven compiler pipeline](Docs/DemandDrivenCompilerPipeline.md).
 
+Generalized recovery now reports exact repair-quality facts and can retain a
+bounded breadth-first search at budget exhaustion. Earley and RNGLR accept the
+same parser-owned recovery session, so a larger follow-up budget continues at
+the next untested candidate while preserving minimum-edit ordering. See
+[Recovery quality and resumed recovery](Docs/RecoveryQualityAndResumption.md).
+
 ## Development
 
 ```sh
