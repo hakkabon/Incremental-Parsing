@@ -12,7 +12,7 @@ final class ReleaseManifestTests: XCTestCase {
             .appendingPathComponent("Release/EcosystemRelease.json"))
         let manifest = try JSONDecoder().decode(
             EcosystemReleaseManifest.self, from: data)
-        XCTAssertEqual(manifest.components.count, 19)
+        XCTAssertEqual(manifest.components.count, 22)
         XCTAssertEqual(Set(manifest.components.filter {
             $0.layer == .product
         }.map(\.name)), ["ModEdit", "Grammar-REPL", "Grammar-Workbench"])

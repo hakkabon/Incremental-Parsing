@@ -169,7 +169,7 @@ the next untested candidate while preserving minimum-edit ordering. See
 [Recovery quality and resumed recovery](Docs/RecoveryQualityAndResumption.md).
 
 The coordinated release surface is now described by a validated, versioned
-manifest covering all 19 foundation, engine, tooling, language, and product
+manifest covering all foundation, engine, tooling, language, and product
 components. It pins compatibility floors and public schema ownership while
 leaving exact commit locks and platform artifacts to downstream release hosts.
 See [Release consolidation](Docs/ReleaseConsolidation.md).
@@ -194,6 +194,13 @@ at language-provider boundaries. It also introduces a parser-free
 active permanent providers, while JSON, Grammar notation, Graphviz DOT, and CSS
 are reserved as independent language kits that ModEdit can bundle when ready.
 See [Contract convergence and bundled languages](Docs/ContractConvergenceAndBundledLanguages.md).
+
+Phase 35 supplies independent Grammar and JSON language kits and activates
+them as permanent ModEdit providers. Grammar reuses the authoritative
+`GrammarParser`; both kits use Lexer's restart-and-converge tokenization and
+publish diagnostics, semantic tokens, and operation evidence through the
+shared provider API. JSON also provides structural recovery and formatting.
+See [Grammar and JSON providers](Docs/GrammarAndJSONProviders.md).
 
 ## Development
 
