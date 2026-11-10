@@ -55,5 +55,5 @@ without changing the public evidence contract.
   its recovery, replay, and source-range guarantees;
 - define a Compiler adapter that preserves PL/0 lexical-level/static-link
   semantics before claiming semantic or IR reuse there; and
-- replace local paths with coordinated release versions when the ecosystem is
-  tagged for distribution.
+- use the Phase-31 compatibility manifest plus a downstream exact-revision
+  lock when replacing local paths with coordinated distribution tags.

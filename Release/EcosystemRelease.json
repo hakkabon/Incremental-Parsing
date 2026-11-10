@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "releaseID": "incremental-platform-2026.11",
+  "swiftToolsVersion": "5.9",
+  "components": [
+    {"name":"Incremental-Parsing","swiftPMIdentity":"incremental-parsing","minimumVersion":"0.1.0","layer":0,"maturity":"stable","dependencies":[]},
+    {"name":"GrammarTokenizer","swiftPMIdentity":"grammartokenizer","minimumVersion":"0.1.0","layer":0,"maturity":"stable","dependencies":[]},
+    {"name":"Grammar","swiftPMIdentity":"grammar","minimumVersion":"0.3.4","layer":0,"maturity":"stable","dependencies":["GrammarTokenizer"]},
+    {"name":"Lexer-FSA","swiftPMIdentity":"lexer-fsa","minimumVersion":"0.2.0","layer":0,"maturity":"stable","dependencies":[]},
+    {"name":"Lexer","swiftPMIdentity":"lexer","minimumVersion":"0.1.1","layer":0,"maturity":"stable","dependencies":["Grammar","GrammarTokenizer","Lexer-FSA","Incremental-Parsing"]},
+    {"name":"Parser","swiftPMIdentity":"parser","minimumVersion":"0.4.1","layer":0,"maturity":"stable","dependencies":["Grammar","Incremental-Parsing"]},
+
+    {"name":"LL-Parsing","swiftPMIdentity":"ll-parsing","minimumVersion":"0.1.0","layer":1,"maturity":"stable","dependencies":["Grammar","Lexer","Parser","Incremental-Parsing"]},
+    {"name":"LR-Parsing","swiftPMIdentity":"lr-parsing","minimumVersion":"0.2.5","layer":1,"maturity":"stable","dependencies":["Grammar","Lexer","Parser","Incremental-Parsing"]},
+    {"name":"Earley-Parser","swiftPMIdentity":"earley-parser","minimumVersion":"0.1.0","layer":1,"maturity":"stable","dependencies":["Grammar","Lexer","Parser","Incremental-Parsing"]},
+    {"name":"Earley-TableParser","swiftPMIdentity":"earley-tableparser","minimumVersion":"0.1.0","layer":1,"maturity":"experimental","dependencies":["Grammar","Lexer","Parser"]},
+    {"name":"CYK-Parser","swiftPMIdentity":"cyk-parser","minimumVersion":"0.1.0","layer":1,"maturity":"stable","dependencies":["Grammar","Lexer","Parser"]},
+    {"name":"RNGLR-Parser","swiftPMIdentity":"rnglr-parser","minimumVersion":"0.1.0","layer":1,"maturity":"stable","dependencies":["Grammar","GrammarTokenizer","Parser","Incremental-Parsing"]},
+
+    {"name":"Compiler","swiftPMIdentity":"compiler","minimumVersion":"0.3.0","layer":2,"maturity":"stable","dependencies":["Grammar","Lexer","Parser","Earley-Parser","CYK-Parser","RNGLR-Parser","Incremental-Parsing"]},
+    {"name":"Language-Tooling","swiftPMIdentity":"language-tooling","minimumVersion":"0.1.0","layer":2,"maturity":"stable","dependencies":["Incremental-Parsing"]},
+
+    {"name":"PL0-LanguageKit","swiftPMIdentity":"pl0-languagekit","minimumVersion":"0.1.0","layer":3,"maturity":"stable","dependencies":["Grammar","Lexer","Parser","LL-Parsing","LR-Parsing","Earley-Parser","Earley-TableParser","CYK-Parser","RNGLR-Parser","Compiler","Language-Tooling","Incremental-Parsing"]},
+    {"name":"Pascal-LanguageKit","swiftPMIdentity":"pascal-languagekit","minimumVersion":"0.1.0","layer":3,"maturity":"experimental","dependencies":["Grammar","Lexer","Parser","Earley-Parser","Language-Tooling","Incremental-Parsing"]},
+
+    {"name":"ModEdit","swiftPMIdentity":"modedit","minimumVersion":"0.5.0","layer":4,"maturity":"stable","dependencies":["PL0-LanguageKit","Language-Tooling","Incremental-Parsing"]},
+    {"name":"Grammar-REPL","swiftPMIdentity":"grammar-repl","minimumVersion":"0.9.0","layer":4,"maturity":"stable","dependencies":["Grammar","Lexer","Parser","LL-Parsing","LR-Parsing","Earley-Parser","Earley-TableParser","CYK-Parser","RNGLR-Parser","Compiler","PL0-LanguageKit","Language-Tooling","Incremental-Parsing"]},
+    {"name":"Grammar-Workbench","swiftPMIdentity":"grammar-workbench","minimumVersion":"1.0.23","layer":4,"maturity":"stable","dependencies":["Grammar","Parser","LR-Parsing","PL0-LanguageKit","Language-Tooling","Incremental-Parsing"]}
+  ],
+  "contracts": [
+    {"id":"incremental-measurement-report","owner":"Incremental-Parsing","schemaVersion":1},
+    {"id":"language-provider","owner":"Incremental-Parsing","schemaVersion":1},
+    {"id":"grammar-normalized-model","owner":"Grammar","schemaVersion":1},
+    {"id":"parser-portable-result","owner":"Parser","schemaVersion":1},
+    {"id":"parser-operational-result","owner":"Parser","schemaVersion":1},
+    {"id":"generalized-recovery-quality","owner":"Parser","schemaVersion":1}
+  ]
+}

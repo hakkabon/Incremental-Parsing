@@ -54,7 +54,9 @@ that represents their observable correctness contract.
 
 ## Release boundary
 
-The ecosystem currently consumes this package through neighboring local SwiftPM
-paths. Before the next coordinated public release, publish Incremental-Parsing
-and replace those paths with one compatible released version across Lexer,
-Parser, PL0-LanguageKit, Grammar-REPL, and Grammar-Workbench.
+Local development continues to use one neighboring SwiftPM source graph so a
+workspace cannot accidentally combine local and released copies of the same
+package identity. Phase 31 records the publishable compatibility graph in
+`Release/EcosystemRelease.json`. A distribution host replaces paths with tags
+from one exact revision lock; the compatibility manifest itself does not claim
+that uncreated tags or remote artifacts already exist.

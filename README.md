@@ -168,6 +168,12 @@ same parser-owned recovery session, so a larger follow-up budget continues at
 the next untested candidate while preserving minimum-edit ordering. See
 [Recovery quality and resumed recovery](Docs/RecoveryQualityAndResumption.md).
 
+The coordinated release surface is now described by a validated, versioned
+manifest covering all 19 foundation, engine, tooling, language, and product
+components. It pins compatibility floors and public schema ownership while
+leaving exact commit locks and platform artifacts to downstream release hosts.
+See [Release consolidation](Docs/ReleaseConsolidation.md).
+
 ## Development
 
 ```sh
@@ -181,6 +187,7 @@ Verified reports can be inspected or gated without an application dependency:
 swift run incremental-report verify report.json
 swift run incremental-report compare modedit.json repl.json workbench.json
 swift run incremental-report gate report.json budgets.json
+swift run incremental-report release-manifest Release/EcosystemRelease.json
 ```
 
 Swift 5.9 or newer is required.

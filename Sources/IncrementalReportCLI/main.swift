@@ -14,6 +14,7 @@ private enum ReportCLIError: Error, CustomStringConvertible {
               incremental-report verify REPORT.json
               incremental-report compare REPORT.json REPORT.json [REPORT.json ...]
               incremental-report gate REPORT.json BUDGETS.json
+              incremental-report release-manifest MANIFEST.json
             """
         case .evidenceMismatch(let paths):
             return "Evidence fingerprints differ: \(paths.joined(separator: ", "))"
@@ -56,6 +57,11 @@ private struct IncrementalReportCLI {
                 throw ReportCLIError.budgetFailure(evaluation.violations)
             }
             print("All \(budgets.count) measurement budgets passed")
+        case "release-manifest" where arguments.count == 2:
+            let manifest = try JSONDecoder().decode(
+                EcosystemReleaseManifest.self,
+                from: Data(contentsOf: URL(fileURLWithPath: arguments[1])))
+            print("Verified release \(manifest.releaseID): \(manifest.components.count) components, \(manifest.contracts.count) contracts")
         default:
             throw ReportCLIError.usage
         }
