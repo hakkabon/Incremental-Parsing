@@ -34,7 +34,7 @@
   ],
   "contracts": [
     {"id":"incremental-measurement-report","owner":"Incremental-Parsing","schemaVersion":1},
-    {"id":"language-provider","owner":"Incremental-Parsing","schemaVersion":1},
+    {"id":"language-provider","owner":"Incremental-Parsing","schemaVersion":2},
     {"id":"grammar-normalized-model","owner":"Grammar","schemaVersion":1},
     {"id":"parser-portable-result","owner":"Parser","schemaVersion":1},
     {"id":"parser-operational-result","owner":"Parser","schemaVersion":1},

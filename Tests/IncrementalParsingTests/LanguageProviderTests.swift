@@ -2,6 +2,23 @@ import XCTest
 @testable import IncrementalParsing
 
 final class LanguageProviderTests: XCTestCase {
+    func testEmbeddedRegionsAreOrderedAndSurviveAnalysisCoding() throws {
+        let analysis = LanguageProviderAnalysis(
+            languageID: "html", revision: .init(3),
+            embeddedRegions: [
+                .init(id: "json.0", languageID: "json",
+                      range: .init(location: 20, length: 4)),
+                .init(id: "css.0", languageID: "css",
+                      range: .init(location: 5, length: 8)),
+            ])
+
+        XCTAssertEqual(analysis.embeddedRegions.map(\.id), ["css.0", "json.0"])
+        let data = try JSONEncoder().encode(analysis)
+        XCTAssertEqual(try JSONDecoder().decode(
+            LanguageProviderAnalysis.self, from: data).embeddedRegions,
+            analysis.embeddedRegions)
+    }
+
     func testProviderAnalysisKeepsOperationEvidenceIndependent() throws {
         let analysis = LanguageProviderAnalysis(
             languageID: "sample",

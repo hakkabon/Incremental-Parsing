@@ -17,6 +17,7 @@ public enum LanguageProviderCapability: String, Hashable, Codable, Sendable {
     case semantics
     case compilation
     case execution
+    case embeddedLanguages
 }
 
 public struct LanguageProviderDescriptor: Hashable, Codable, Sendable {
@@ -78,6 +79,28 @@ public struct LanguageProviderDiagnostic: Hashable, Codable, Sendable {
     }
 }
 
+/// A half-open region whose contents are owned by another language provider.
+/// Delimiters remain owned by the host; `range` covers only the embedded text.
+public struct EmbeddedLanguageRegion: Hashable, Codable, Sendable, Identifiable {
+    public let id: String
+    public let languageID: String
+    public let range: SourceRange
+
+    public init(id: String, languageID: String, range: SourceRange) {
+        precondition(!id.isEmpty && !languageID.isEmpty)
+        self.id = id
+        self.languageID = languageID
+        self.range = range
+    }
+
+    public func relocated(by delta: Int) -> Self {
+        Self(
+            id: id, languageID: languageID,
+            range: .init(
+                location: range.location + delta, length: range.length))
+    }
+}
+
 /// Parser-neutral repair evidence exposed at the language-provider boundary.
 /// Token positions are used because providers already publish the token stream;
 /// source ranges remain available on deletion diagnostics and tokens.
@@ -107,6 +130,7 @@ public struct LanguageProviderAnalysis: Hashable, Codable, Sendable {
     public let tokens: [LanguageProviderToken]
     public let diagnostics: [LanguageProviderDiagnostic]
     public let recoveryEdits: [LanguageProviderRecoveryEdit]
+    public let embeddedRegions: [EmbeddedLanguageRegion]
     public let operations: [LanguageProviderOperationEvidence]
 
     public init(
@@ -116,6 +140,7 @@ public struct LanguageProviderAnalysis: Hashable, Codable, Sendable {
         tokens: [LanguageProviderToken] = [],
         diagnostics: [LanguageProviderDiagnostic] = [],
         recoveryEdits: [LanguageProviderRecoveryEdit] = [],
+        embeddedRegions: [EmbeddedLanguageRegion] = [],
         operations: [LanguageProviderOperationEvidence] = []
     ) {
         precondition(!languageID.isEmpty, "provider analysis needs a language ID")
@@ -127,6 +152,11 @@ public struct LanguageProviderAnalysis: Hashable, Codable, Sendable {
         self.tokens = tokens
         self.diagnostics = diagnostics
         self.recoveryEdits = recoveryEdits
+        precondition(Set(embeddedRegions.map(\.id)).count == embeddedRegions.count,
+                     "embedded region IDs must be unique")
+        self.embeddedRegions = embeddedRegions.sorted {
+            ($0.range.location, $0.id) < ($1.range.location, $1.id)
+        }
         self.operations = operations.sorted { $0.operation < $1.operation }
     }
 
@@ -135,7 +165,8 @@ public struct LanguageProviderAnalysis: Hashable, Codable, Sendable {
     }
 
     private enum CodingKeys: String, CodingKey {
-        case languageID, revision, artifact, tokens, diagnostics, recoveryEdits, operations
+        case languageID, revision, artifact, tokens, diagnostics, recoveryEdits,
+             embeddedRegions, operations
     }
 
     public init(from decoder: Decoder) throws {
@@ -151,6 +182,8 @@ public struct LanguageProviderAnalysis: Hashable, Codable, Sendable {
                 [LanguageProviderDiagnostic].self, forKey: .diagnostics) ?? [],
             recoveryEdits: try values.decodeIfPresent(
                 [LanguageProviderRecoveryEdit].self, forKey: .recoveryEdits) ?? [],
+            embeddedRegions: try values.decodeIfPresent(
+                [EmbeddedLanguageRegion].self, forKey: .embeddedRegions) ?? [],
             operations: try values.decodeIfPresent(
                 [LanguageProviderOperationEvidence].self, forKey: .operations) ?? [])
     }
@@ -163,6 +196,7 @@ public struct LanguageProviderAnalysis: Hashable, Codable, Sendable {
         try values.encode(tokens, forKey: .tokens)
         try values.encode(diagnostics, forKey: .diagnostics)
         try values.encode(recoveryEdits, forKey: .recoveryEdits)
+        try values.encode(embeddedRegions, forKey: .embeddedRegions)
         try values.encode(operations, forKey: .operations)
     }
 }

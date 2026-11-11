@@ -207,6 +207,12 @@ remaining reserved permanent providers. Parser now supplies shared balanced-
 delimiter recovery, while both kits use Lexer's incremental tokenizer and the
 unified tooling lifecycle. See [DOT and CSS providers](Docs/DOTAndCSSProviders.md).
 
+Phase 37 introduces provider-neutral embedded-language regions and a reusable
+Language-Tooling composite session. ModEdit now routes HTML style/JSON blocks
+and supported Markdown fences through the existing CSS, JSON, DOT, and Grammar
+providers with relocated diagnostics and incremental child reuse. See
+[Embedded-language regions](Docs/EmbeddedLanguageRegions.md).
+
 ## Development
 
 ```sh
