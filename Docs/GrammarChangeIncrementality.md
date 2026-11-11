@@ -30,9 +30,9 @@ closed.
 | --- | --- | --- |
 | Lexer | Entire restart-and-converge token cache | Any lexical rule or priority change clears the cache |
 | Earley | Chart facts with no dependency path to an invalidated production | Fingerprint mismatch performs the normal full bind |
-| RNGLR | Unaffected forest nodes | The GSS is rebuilt because generated automaton state numbers do not yet have cross-grammar identity |
+| RNGLR | Unaffected forest nodes in the live document session | The GSS is rebuilt because generated automaton state numbers remain grammar-local |
 | Compiler | Semantic and IR units not dependent on invalidated productions | Unverified artifact changes retain nothing |
-| LR | Nothing yet | A parse-table change invalidates checkpoints because LR state correspondence is not yet proven |
+| LR | Checkpoints whose complete stacks map through stable LR item-set identities | Lexical changes and stacks containing unmapped states restart |
 
 All successful transitions publish `grammarProductions` alongside their native
 reuse dimensions. Counts stay separate: retained productions are not presented
@@ -51,6 +51,6 @@ IDs is not a safe shortcut.
 Phase 27 adds a shared hot-reload campaign runner and a PL/0 campaign consumed
 unchanged by ModEdit, Grammar-REPL, and Grammar-Workbench. It verifies the
 artifact chain, atomic rejection, retained document revision, engine evidence,
-and equivalence with clean target execution. The next deeper engine work is
-stable generated-state correspondence for LR and RNGLR, followed by live
-cross-grammar parser-session adoption where correctness can be proven.
+and equivalence with clean target execution. Phase 39 adds live LR, Earley, and
+RNGLR transitions plus one comparable engine-transition report. The product
+campaign can adopt those reports without redefining native engine evidence.

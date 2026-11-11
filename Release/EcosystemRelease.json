@@ -38,6 +38,7 @@
     {"id":"grammar-normalized-model","owner":"Grammar","schemaVersion":1},
     {"id":"parser-portable-result","owner":"Parser","schemaVersion":1},
     {"id":"parser-operational-result","owner":"Parser","schemaVersion":1},
-    {"id":"generalized-recovery-quality","owner":"Parser","schemaVersion":1}
+    {"id":"generalized-recovery-quality","owner":"Parser","schemaVersion":1},
+    {"id":"grammar-engine-transition","owner":"Incremental-Parsing","schemaVersion":1}
   ]
 }

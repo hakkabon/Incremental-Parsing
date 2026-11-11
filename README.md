@@ -218,6 +218,12 @@ source actions. Repair cost, expectations, and diagnostic identity survive the
 projection, and embedded providers now relocate child recovery alongside child
 diagnostics. See [Recovery convergence](Docs/RecoveryConvergence.md).
 
+Phase 39 converges grammar activation across LR, Earley, and RNGLR. A shared
+transition report preserves engine-native measurements; LR relocates compatible
+checkpoints through stable state identities, Earley transitions live chart
+state, and RNGLR retains safe forest state while rebuilding its GSS. See
+[Grammar-change and engine convergence](Docs/GrammarChangeAndEngineConvergence.md).
+
 ## Development
 
 ```sh

@@ -16,7 +16,7 @@ final class ReleaseManifestTests: XCTestCase {
         XCTAssertEqual(Set(manifest.components.filter {
             $0.layer == .product
         }.map(\.name)), ["ModEdit", "Grammar-REPL", "Grammar-Workbench"])
-        XCTAssertEqual(manifest.contracts.count, 6)
+        XCTAssertEqual(manifest.contracts.count, 7)
     }
 
     func testReleaseManifestRoundTripsAndValidatesLayeredGraph() throws {
