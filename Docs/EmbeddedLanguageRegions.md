@@ -44,8 +44,8 @@ Grammar providers analyze those contents; ModEdit contains no embedded parser.
 
 ## Current boundary
 
-Child diagnostics and semantic tokens are host-relative. Child operation
-evidence remains separately measurable. Recovery edits are not flattened into
-the host result yet because the current public recovery schema uses token
-indices, which are local to each provider stream. Completions, navigation,
-formatting, and recursively nested embedded regions also remain future work.
+Child diagnostics, recovery actions, and semantic tokens are host-relative.
+Child operation evidence remains separately measurable. Recovery actions and
+diagnostic identities are namespaced and relocated by the composite provider;
+see [Recovery convergence](RecoveryConvergence.md). Completions, navigation,
+formatting, and recursively nested embedded regions remain future work.

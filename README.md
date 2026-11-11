@@ -213,6 +213,11 @@ and supported Markdown fences through the existing CSS, JSON, DOT, and Grammar
 providers with relocated diagnostics and incremental child reuse. See
 [Embedded-language regions](Docs/EmbeddedLanguageRegions.md).
 
+Phase 38 replaces provider-facing token-index repairs with portable UTF-16
+source actions. Repair cost, expectations, and diagnostic identity survive the
+projection, and embedded providers now relocate child recovery alongside child
+diagnostics. See [Recovery convergence](Docs/RecoveryConvergence.md).
+
 ## Development
 
 ```sh

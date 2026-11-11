@@ -63,19 +63,29 @@ public struct LanguageProviderToken: Hashable, Codable, Sendable {
     }
 }
 
-public struct LanguageProviderDiagnostic: Hashable, Codable, Sendable {
+public struct LanguageProviderDiagnostic: Hashable, Codable, Sendable, Identifiable {
+    public let id: String
     public let severity: DiagnosticSeverity
     public let message: String
     public let range: SourceRange
     public let expected: [String]
 
-    public init(severity: DiagnosticSeverity, message: String,
+    public init(id: String? = nil, severity: DiagnosticSeverity, message: String,
                 range: SourceRange, expected: [String] = []) {
         precondition(!message.isEmpty, "a provider diagnostic needs a message")
+        self.id = id ?? "\(range.location):\(range.length):\(message)"
         self.severity = severity
         self.message = message
         self.range = range
         self.expected = Array(Set(expected)).sorted()
+    }
+
+    public func relocated(by delta: Int, idPrefix: String? = nil) -> Self {
+        .init(
+            id: idPrefix.map { "\($0).\(id)" } ?? id,
+            severity: severity, message: message,
+            range: .init(location: range.location + delta, length: range.length),
+            expected: expected)
     }
 }
 
@@ -101,13 +111,102 @@ public struct EmbeddedLanguageRegion: Hashable, Codable, Sendable, Identifiable 
     }
 }
 
-/// Parser-neutral repair evidence exposed at the language-provider boundary.
-/// Token positions are used because providers already publish the token stream;
-/// source ranges remain available on deletion diagnostics and tokens.
-public enum LanguageProviderRecoveryEdit: Hashable, Codable, Sendable {
-    case insert(terminal: String, atToken: Int)
-    case delete(terminal: String, atToken: Int)
-    case skip(terminals: [String], fromToken: Int)
+/// A parser-neutral repair expressed entirely in UTF-16 source coordinates.
+/// Token indices remain an engine concern and must be projected before a
+/// repair crosses the language-provider boundary.
+public enum LanguageProviderRecoveryAction: Hashable, Codable, Sendable {
+    case insert(terminal: String, atUTF16Offset: Int)
+    case delete(terminal: String, range: SourceRange)
+    case replace(terminal: String, range: SourceRange, with: String)
+    case skip(terminals: [String], range: SourceRange)
+
+    public var range: SourceRange {
+        switch self {
+        case .insert(_, let offset): .init(location: offset, length: 0)
+        case .delete(_, let range), .replace(_, let range, _),
+             .skip(_, let range): range
+        }
+    }
+
+    public func relocated(by delta: Int) -> Self {
+        let moved = SourceRange(
+            location: range.location + delta, length: range.length)
+        switch self {
+        case .insert(let terminal, _):
+            return .insert(terminal: terminal, atUTF16Offset: moved.location)
+        case .delete(let terminal, _):
+            return .delete(terminal: terminal, range: moved)
+        case .replace(let terminal, _, let replacement):
+            return .replace(terminal: terminal, range: moved, with: replacement)
+        case .skip(let terminals, _):
+            return .skip(terminals: terminals, range: moved)
+        }
+    }
+}
+
+/// One portable recovery step. Expected terminals, cost, and diagnostic
+/// identity stay attached so consumers do not need parser-specific side data.
+public struct LanguageProviderRecoveryEdit: Hashable, Codable, Sendable {
+    public let action: LanguageProviderRecoveryAction
+    public let expected: [String]
+    public let cost: Int
+    public let diagnosticID: String?
+
+    public init(
+        action: LanguageProviderRecoveryAction,
+        expected: [String] = [],
+        cost: Int = 1,
+        diagnosticID: String? = nil
+    ) {
+        precondition(cost > 0, "provider recovery must make positive progress")
+        self.action = action
+        self.expected = Array(Set(expected)).sorted()
+        self.cost = cost
+        self.diagnosticID = diagnosticID
+    }
+
+    public var range: SourceRange { action.range }
+
+    public func relocated(by delta: Int, diagnosticIDPrefix: String? = nil) -> Self {
+        .init(action: action.relocated(by: delta), expected: expected,
+              cost: cost,
+              diagnosticID: diagnosticID.map { id in
+                  diagnosticIDPrefix.map { "\($0).\(id)" } ?? id
+              })
+    }
+}
+
+public extension RecoveryPlan {
+    /// Projects an engine-neutral recovery plan onto the provider boundary
+    /// without reintroducing token coordinates. Token names are supplied by
+    /// the owning lexer because stable token identities are intentionally
+    /// opaque to this package.
+    func languageProviderEdits(
+        terminalName: (TokenKind) -> String,
+        tokenName: (TokenID) -> String
+    ) -> [LanguageProviderRecoveryEdit] {
+        steps.map { step in
+            let action: LanguageProviderRecoveryAction
+            switch step.action {
+            case .insert(let terminal, let offset):
+                action = .insert(
+                    terminal: terminalName(terminal), atUTF16Offset: offset)
+            case .delete(let id, let range):
+                action = .delete(terminal: tokenName(id), range: range)
+            case .replace(let id, let range, let replacement):
+                action = .replace(
+                    terminal: tokenName(id), range: range,
+                    with: terminalName(replacement))
+            case .skip(let ids, let range):
+                action = .skip(terminals: ids.map(tokenName), range: range)
+            }
+            return .init(
+                action: action,
+                expected: step.expected.map(terminalName),
+                cost: step.cost,
+                diagnosticID: step.diagnosticID)
+        }
+    }
 }
 
 /// Evidence is named by operation so consumers never merge unlike native

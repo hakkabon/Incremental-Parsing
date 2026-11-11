@@ -27,8 +27,11 @@ final class LanguageProviderTests: XCTestCase {
                 range: .init(location: 0, length: 3),
                 classification: "keyword")],
             recoveryEdits: [
-                .insert(terminal: ";", atToken: 1),
-                .delete(terminal: "noise", atToken: 2),
+                .init(
+                    action: .insert(terminal: ";", atUTF16Offset: 3),
+                    expected: [";"], diagnosticID: "sample.0"),
+                .init(action: .delete(
+                    terminal: "noise", range: .init(location: 4, length: 5))),
             ],
             operations: [
                 .init(operation: "semantics", evidence: .init(
@@ -49,6 +52,7 @@ final class LanguageProviderTests: XCTestCase {
             analysis.evidence(for: "semantics")?.measurements.first?.dimension,
             .semanticNodes)
         XCTAssertEqual(analysis.recoveryEdits.count, 2)
+        XCTAssertEqual(analysis.recoveryEdits[0].range.location, 3)
         XCTAssertEqual(try JSONDecoder().decode(
             LanguageProviderAnalysis.self,
             from: JSONEncoder().encode(analysis)), analysis)
@@ -63,5 +67,23 @@ final class LanguageProviderTests: XCTestCase {
 
         XCTAssertEqual(descriptor.fileExtensions, ["markdown", "md"])
         XCTAssertEqual(descriptor.distribution, .bundledPermanent)
+    }
+
+    func testRecoveryPlanProjectsToPortableSourceCoordinates() throws {
+        let plan = try RecoveryPlan<String, String>(steps: [
+            .init(
+                action: .replace(
+                    "token.0", range: .init(location: 4, length: 2),
+                    with: ";"),
+                expected: [";"], cost: 2, diagnosticID: "parser.0"),
+        ], maximumCost: 2)
+
+        let edits = plan.languageProviderEdits(
+            terminalName: { $0 }, tokenName: { _ in "identifier" })
+        XCTAssertEqual(edits, [.init(
+            action: .replace(
+                terminal: "identifier",
+                range: .init(location: 4, length: 2), with: ";"),
+            expected: [";"], cost: 2, diagnosticID: "parser.0")])
     }
 }
