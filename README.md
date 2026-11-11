@@ -224,6 +224,13 @@ checkpoints through stable state identities, Earley transitions live chart
 state, and RNGLR retains safe forest state while rebuilding its GSS. See
 [Grammar-change and engine convergence](Docs/GrammarChangeAndEngineConvergence.md).
 
+Phase 40 introduces a revisioned multi-document tooling host with URI-aware
+provider sessions, aggregated diagnostics, cross-file navigation and workspace
+rename extension points, plus independent document-reuse evidence. Language
+kits retain ownership of imports and binding; Compiler retains its module and
+IR dependency graph. See
+[Project-scale language services](Docs/ProjectScaleLanguageServices.md).
+
 ## Development
 
 ```sh
