@@ -56,6 +56,26 @@ interface or import-list changes.
 PL/0 publishes range-derived diagnostic IDs for the current revision before
 linking repairs. Engines can still retain structural IDs internally.
 
+## Phase 42 workspace scheduling
+
+`LanguageToolingWorkspace` accepts complete source generations without running
+providers. A diagnostic or navigation request analyzes the latest generation
+through the transactional project host. Subsequent requests share the
+materialized generation. Results carry the revision and include document
+analysis evidence when the request triggered materialization.
+
+Interactive requests run ahead of queued background diagnostics. A newer
+submission rejects obsolete queued requests and requests cancellation of
+running work. Providers and resolvers can cooperate with cancellation, and the
+scheduler checks the generation again before returning any result. An edit
+based on a skipped generation falls back to its full source snapshot.
+
+Queue and document limits bound admission. The host retains one committed
+project and the latest source submission, with temporary staged state during
+analysis. A resolver can inspect the whole project, so the first query still
+materializes all required documents. Stage-specific provider demands,
+compiler scheduling and byte-based cache eviction require additional contracts.
+
 ## Next adoption step
 
 Language kits with real module systems should implement a resolver and map
