@@ -38,6 +38,24 @@ may feed that session from its project model; Language-Tooling does not import
 Compiler or duplicate its graph. Thus document reuse and compiler-module reuse
 remain independently measurable.
 
+## Phase 41 foundations
+
+Changed documents are staged in separate provider sessions before publication.
+An exact edit seeds its staged session from the committed source, then applies
+the change. This preserves retry and isolation at the cost of reanalyzing the
+base for changed documents until providers can fork sessions. Reads of
+committed diagnostics remain available during a pending update. Overlapping
+asynchronous operations return `operationInProgress`. Resolvers must preserve
+their committed state when rejecting an update.
+
+Grammar-REPL and Grammar-Workbench expose project factories alongside their
+document adapters. Project completion can delegate to the language resolver.
+Compiler uses reverse import edges to invalidate transitive dependents after
+interface or import-list changes.
+
+PL/0 publishes range-derived diagnostic IDs for the current revision before
+linking repairs. Engines can still retain structural IDs internally.
+
 ## Next adoption step
 
 Language kits with real module systems should implement a resolver and map
