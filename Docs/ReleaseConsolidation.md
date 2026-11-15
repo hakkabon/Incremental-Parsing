@@ -63,6 +63,16 @@ identity.
    and products last.
 8. Rebuild from tags in a clean checkout before publishing release notes.
 
+## Phase 46 dependency preflight
+
+Run `swift package dump-package` in every checkout in the candidate release
+graph and save each JSON result. Pass those files to
+`incremental-report release-dependencies`. The command rejects SwiftPM
+filesystem dependencies and local Git locations, including file URLs. Run it
+with release configuration and without workstation mirrors. This preflight
+checks the supplied manifests; dependency resolution and the clean checkout
+build still verify compatibility across the selected tags.
+
 ## Remaining distribution work
 
 Phase 31 supplies the shared release contract; it does not publish repositories,

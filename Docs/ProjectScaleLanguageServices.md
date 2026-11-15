@@ -96,6 +96,16 @@ Storage currently writes one checkpoint for the project. Hosts can adopt it
 through a language-owned resolver when that resolver supplies project keys
 and dependency fingerprints.
 
+## Phase 46 resource limits
+
+Workspace admission limits the combined UTF-8 size of submitted source,
+edit bases, and replacement text, along with the number of edit operations.
+An over-budget submission leaves the previous generation available.
+Semantic checkpoint reads stop at their byte budget before decoding, and
+oversized writes leave the previous checkpoint in place. These limits cover
+the input and checkpoint payloads. Parser state and decoded index allocations
+have separate lifetimes and are outside these byte budgets.
+
 ## Next adoption step
 
 Language kits with real module systems should implement a resolver and map

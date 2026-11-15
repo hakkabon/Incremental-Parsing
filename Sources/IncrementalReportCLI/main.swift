@@ -5,6 +5,7 @@ private enum ReportCLIError: Error, CustomStringConvertible {
     case usage
     case evidenceMismatch([String])
     case budgetFailure([String])
+    case invalidPackageDump(String)
 
     var description: String {
         switch self {
@@ -15,11 +16,14 @@ private enum ReportCLIError: Error, CustomStringConvertible {
               incremental-report compare REPORT.json REPORT.json [REPORT.json ...]
               incremental-report gate REPORT.json BUDGETS.json
               incremental-report release-manifest MANIFEST.json
+              incremental-report release-dependencies PACKAGE-DUMP.json [PACKAGE-DUMP.json ...]
             """
         case .evidenceMismatch(let paths):
             return "Evidence fingerprints differ: \(paths.joined(separator: ", "))"
         case .budgetFailure(let violations):
             return violations.joined(separator: "\n")
+        case .invalidPackageDump(let path):
+            return "Invalid SwiftPM package dump: \(path)"
         }
     }
 }
@@ -62,8 +66,42 @@ private struct IncrementalReportCLI {
                 EcosystemReleaseManifest.self,
                 from: Data(contentsOf: URL(fileURLWithPath: arguments[1])))
             print("Verified release \(manifest.releaseID): \(manifest.components.count) components, \(manifest.contracts.count) contracts")
+        case "release-dependencies" where arguments.count >= 2:
+            do {
+                let findings = try arguments.dropFirst().flatMap(localDependencies)
+                if !findings.isEmpty { throw ReportCLIError.budgetFailure(findings) }
+            } catch {
+                FileHandle.standardError.write(Data("\(error)\n".utf8))
+                exit(1)
+            }
+            print("Package dumps contain no local dependencies")
         default:
             throw ReportCLIError.usage
+        }
+    }
+
+    private static func localDependencies(_ path: String) throws -> [String] {
+        let data = try Data(contentsOf: URL(fileURLWithPath: path))
+        guard let package = try JSONSerialization.jsonObject(with: data) as? [String: Any],
+              let name = package["name"] as? String,
+              let dependencies = package["dependencies"] as? [[String: Any]] else {
+            throw ReportCLIError.invalidPackageDump(path)
+        }
+        return dependencies.flatMap { dependency -> [String] in
+            if let local = dependency["fileSystem"] as? [[String: Any]] {
+                return local.map { "\(name): local path dependency \($0["identity"] ?? "unknown")" }
+            }
+            let entries = dependency["sourceControl"] as? [[String: Any]] ?? []
+            return entries.compactMap { entry in
+                let location = entry["location"] as? [String: Any]
+                let remotes = location?["remote"] as? [[String: String]] ?? []
+                let usesFileURL = remotes.contains {
+                    guard let url = $0["urlString"] else { return false }
+                    return URL(string: url)?.isFileURL == true
+                }
+                guard location?["local"] != nil || usesFileURL else { return nil }
+                return "\(name): local Git dependency \(entry["identity"] ?? "unknown")"
+            }
         }
     }
 
