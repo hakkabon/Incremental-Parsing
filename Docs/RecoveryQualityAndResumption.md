@@ -46,3 +46,17 @@ stable token identities. Live Earley and RNGLR parsing continue to own their
 separate native edit-resumption state. A later phase can map recovery nodes
 through the lexer change map and reuse only dependency-independent frontier
 regions, with clean recovery as the differential oracle.
+
+## Phase 44 typing campaign
+
+`RecoveryQualityCampaign` compares incremental and fresh observations at the
+same revision. Independent gates check total repair cost, diagnostic count,
+preservation of fixture-selected constructs, and repair-to-diagnostic links.
+The comparison uses published diagnostic identities within a revision.
+
+The PL/0 fixture removes a statement separator, moves the resulting diagnostic
+with a whitespace edit, restores the separator, and removes and restores the
+program terminator. It requires the following assignments to survive every
+edit and checks that repairs and diagnostics clear when syntax is restored.
+The fixture is scripted. Semantic repair ranking and broader typing corpora
+remain separate work.
