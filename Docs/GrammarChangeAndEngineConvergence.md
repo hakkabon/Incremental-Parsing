@@ -1,5 +1,23 @@
 # Grammar-change and engine convergence
 
+## Phase 45 grammar authoring
+
+Grammar-LanguageKit exposes a revisioned authoring session using the same
+provider tokenizer and authoritative Grammar parser as ordinary grammar
+analysis. Submission validates the start production, nonterminal references,
+and lexical rules before replacing the active source. Invalid drafts still
+provide analysis and can serve as the base for the next text edit.
+
+Successful submissions expose the Grammar-owned change set against the last
+accepted grammar. Consumers can display added, removed, and invalidated
+productions, affected nonterminals, and retokenization requirements.
+EBNF lowering assigns synthetic production names within each conversion.
+Unchanged EBNF now produces the same identities across successive analyses.
+Grammar-REPL and Grammar-Workbench expose this session through their
+shared-tooling adapters. Connecting those authoring results to each product's
+live parser, compiler and UI workflows remains separate from the shared
+session and its activation tests.
+
 Phase 39 moves grammar activation from engine-specific experiments into live
 parser sessions with comparable evidence.
 
