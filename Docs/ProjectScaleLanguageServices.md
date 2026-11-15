@@ -76,6 +76,26 @@ analysis. A resolver can inspect the whole project, so the first query still
 materializes all required documents. Stage-specific provider demands,
 compiler scheduling and byte-based cache eviction require additional contracts.
 
+## Phase 43 persistent semantic index
+
+`PersistentSemanticIndex` stores declarations, references, and direct
+dependencies per document. Replacing a document updates its reverse symbol
+and dependency entries. A resolver can query transitive dependents before
+replacing affected records.
+
+Checkpoints use versioned JSON and atomic file replacement. On restart,
+restore against a current document manifest. A record is reusable when its
+URI, SHA-256 source digest, language, grammar artifact, producer version, and
+binding fingerprint match. Reconcile returns the current documents whose
+records need to be rebuilt. The producer must include imported interfaces,
+unresolved imports and configuration in the binding fingerprint wherever
+they affect name resolution.
+
+The resolver owns the index, checkpoint timing, and storage location.
+Storage currently writes one checkpoint for the project. Hosts can adopt it
+through a language-owned resolver when that resolver supplies project keys
+and dependency fingerprints.
+
 ## Next adoption step
 
 Language kits with real module systems should implement a resolver and map
