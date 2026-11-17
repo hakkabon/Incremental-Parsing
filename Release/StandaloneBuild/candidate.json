@@ -1,0 +1,352 @@
+[
+  {
+    "name": "Incremental-Parsing",
+    "url": "https://github.com/hakkabon/Incremental-Parsing.git",
+    "proposedVersion": "0.33.0",
+    "baseRevision": "d4995a0efaa386b7e678118d4ab747aaf089b2d0",
+    "candidateRevision": "d4995a0efaa386b7e678118d4ab747aaf089b2d0",
+    "dependencies": [],
+    "manifestChanged": false
+  },
+  {
+    "name": "GrammarTokenizer",
+    "url": "https://github.com/hakkabon/GrammarTokenizer.git",
+    "proposedVersion": "0.1.0",
+    "baseRevision": "71a0bf3fa9f2bfe3399ba10ffd2b33eb4826c989",
+    "candidateRevision": "71a0bf3fa9f2bfe3399ba10ffd2b33eb4826c989",
+    "dependencies": [],
+    "manifestChanged": false
+  },
+  {
+    "name": "Lexer-FSA",
+    "url": "https://github.com/hakkabon/Lexer-FSA.git",
+    "proposedVersion": "0.2.0",
+    "baseRevision": "777ea30c2f1d5f929e94971c2176b45c2ce8fae5",
+    "candidateRevision": "777ea30c2f1d5f929e94971c2176b45c2ce8fae5",
+    "dependencies": [],
+    "manifestChanged": false
+  },
+  {
+    "name": "Railroad",
+    "url": "https://github.com/hakkabon/Railroad.git",
+    "proposedVersion": "0.1.0",
+    "baseRevision": "6e0ce6837df5a0389e558f23b81713722de58999",
+    "candidateRevision": "6e0ce6837df5a0389e558f23b81713722de58999",
+    "dependencies": [],
+    "manifestChanged": false
+  },
+  {
+    "name": "ModEdit-Bundled-Languages",
+    "url": "https://github.com/hakkabon/ModEdit-Bundled-Languages.git",
+    "proposedVersion": "0.1.0",
+    "baseRevision": "18458ebc53fc0f7bc5fcc38a3495732b1ca1cd57",
+    "candidateRevision": "18458ebc53fc0f7bc5fcc38a3495732b1ca1cd57",
+    "dependencies": [],
+    "manifestChanged": false
+  },
+  {
+    "name": "Grammar",
+    "url": "https://github.com/hakkabon/Grammar.git",
+    "proposedVersion": "0.9.1",
+    "baseRevision": "3521a926087e1037f1bf8f86f52cf0dd579a2327",
+    "candidateRevision": "f1a463faaa9d7ab23524a1168d20de460a36714d",
+    "dependencies": [
+      "GrammarTokenizer"
+    ],
+    "manifestChanged": true
+  },
+  {
+    "name": "Lexer",
+    "url": "https://github.com/hakkabon/Lexer.git",
+    "proposedVersion": "0.9.1",
+    "baseRevision": "7b130633733b4bc0f94d88216a77440c2d481637",
+    "candidateRevision": "81ecdee11a9ad5d62653d6e03c4817fa3c3bb38f",
+    "dependencies": [
+      "Lexer-FSA",
+      "Grammar",
+      "GrammarTokenizer",
+      "Incremental-Parsing"
+    ],
+    "manifestChanged": true
+  },
+  {
+    "name": "Parser",
+    "url": "https://github.com/hakkabon/Parser.git",
+    "proposedVersion": "0.12.1",
+    "baseRevision": "79a7688bf16b6946319284109c7d2f299813d9e9",
+    "candidateRevision": "852eeed7218b8547374da02f1edc29070508bf4d",
+    "dependencies": [
+      "Grammar",
+      "Incremental-Parsing"
+    ],
+    "manifestChanged": true
+  },
+  {
+    "name": "LL-Parsing",
+    "url": "https://github.com/hakkabon/LL-Parsing.git",
+    "proposedVersion": "0.5.1",
+    "baseRevision": "1c408951ed6c34b366cac232ae57194ad3e82026",
+    "candidateRevision": "ccd4128b95e943f3abe8497114616ebacaad8f5f",
+    "dependencies": [
+      "Grammar",
+      "Lexer",
+      "Parser",
+      "Incremental-Parsing"
+    ],
+    "manifestChanged": true
+  },
+  {
+    "name": "LR-Parsing",
+    "url": "https://github.com/hakkabon/LR-Parsing.git",
+    "proposedVersion": "0.8.1",
+    "baseRevision": "26f9ed8b6a1f694b1a5ebb702fa8e25c50b943a7",
+    "candidateRevision": "0dfc464931e11edf36b2e5c3840d0f7bd7dea779",
+    "dependencies": [
+      "Grammar",
+      "Parser",
+      "Lexer",
+      "Incremental-Parsing"
+    ],
+    "manifestChanged": true
+  },
+  {
+    "name": "Earley-Parser",
+    "url": "https://github.com/hakkabon/Earley-Parser.git",
+    "proposedVersion": "0.10.1",
+    "baseRevision": "911f918bb28466887dd6190086ac584908ca95f2",
+    "candidateRevision": "08ae2adf013a89f7e042973819e53a00c79cc3e0",
+    "dependencies": [
+      "Grammar",
+      "Lexer",
+      "Parser",
+      "Incremental-Parsing"
+    ],
+    "manifestChanged": true
+  },
+  {
+    "name": "Earley-TableParser",
+    "url": "https://github.com/hakkabon/Earley-TableParser.git",
+    "proposedVersion": "0.3.1",
+    "baseRevision": "fcc01ec333d886cf41e8c8e49731b841a28b2bd3",
+    "candidateRevision": "9df0cc6e80e908c39826db2b871be40c654cb9fb",
+    "dependencies": [
+      "Grammar",
+      "Lexer",
+      "Parser"
+    ],
+    "manifestChanged": true
+  },
+  {
+    "name": "CYK-Parser",
+    "url": "https://github.com/hakkabon/CYK-Parser.git",
+    "proposedVersion": "0.3.1",
+    "baseRevision": "fe87f6a982deeb344a51fe5faa04878dd4a13070",
+    "candidateRevision": "2b7280642e2019d943a3ccad72eae76e817da3ec",
+    "dependencies": [
+      "Grammar",
+      "Lexer",
+      "Parser"
+    ],
+    "manifestChanged": true
+  },
+  {
+    "name": "RNGLR-Parser",
+    "url": "https://github.com/hakkabon/RNGLR-Parser.git",
+    "proposedVersion": "0.10.1",
+    "baseRevision": "38558816c3bfc9f4b23f6b3fb720d4251e31d80b",
+    "candidateRevision": "99ca565448a9b3b36a4f047f32d5f09392aa3280",
+    "dependencies": [
+      "Grammar",
+      "GrammarTokenizer",
+      "Parser",
+      "Incremental-Parsing"
+    ],
+    "manifestChanged": true
+  },
+  {
+    "name": "Compiler",
+    "url": "https://github.com/hakkabon/Compiler.git",
+    "proposedVersion": "0.10.1",
+    "baseRevision": "8dc58432663b2a9eaa4c77694788ebc8774c54ca",
+    "candidateRevision": "e53cbd13d68861bf241eaf1e78fba520e1c543d8",
+    "dependencies": [
+      "Grammar",
+      "Parser",
+      "Lexer",
+      "Lexer-FSA",
+      "Earley-Parser",
+      "CYK-Parser",
+      "RNGLR-Parser",
+      "Incremental-Parsing"
+    ],
+    "manifestChanged": true
+  },
+  {
+    "name": "Language-Tooling",
+    "url": "https://github.com/hakkabon/Language-Tooling.git",
+    "proposedVersion": "0.10.1",
+    "baseRevision": "be0eb8837ebeda549d20749691e224abb40039d5",
+    "candidateRevision": "cbe4da54173bb937831c47cbcc85442c509aee9a",
+    "dependencies": [
+      "Incremental-Parsing"
+    ],
+    "manifestChanged": true
+  },
+  {
+    "name": "PL0-LanguageKit",
+    "url": "https://github.com/hakkabon/PL0-LanguageKit.git",
+    "proposedVersion": "0.16.2",
+    "baseRevision": "9677630b4020be22aad246824deead160e3a0b5f",
+    "candidateRevision": "9aaccb7e17b213d523d05ab7ba62430b02d0ed22",
+    "dependencies": [
+      "Grammar",
+      "Parser",
+      "Lexer",
+      "Incremental-Parsing",
+      "Language-Tooling",
+      "Earley-Parser",
+      "CYK-Parser",
+      "RNGLR-Parser",
+      "LR-Parsing",
+      "LL-Parsing",
+      "Earley-TableParser",
+      "Compiler"
+    ],
+    "manifestChanged": true
+  },
+  {
+    "name": "Pascal-LanguageKit",
+    "url": "https://github.com/hakkabon/Pascal-LanguageKit.git",
+    "proposedVersion": "0.8.1",
+    "baseRevision": "73e8846e63c7c541063f1ae173dfdb5970f72e5d",
+    "candidateRevision": "42e4341c313843bc5dd25d71631964114931aa81",
+    "dependencies": [
+      "Grammar",
+      "Lexer",
+      "Parser",
+      "Earley-Parser",
+      "Incremental-Parsing",
+      "Language-Tooling"
+    ],
+    "manifestChanged": true
+  },
+  {
+    "name": "DOT-LanguageKit",
+    "url": "https://github.com/hakkabon/DOT-LanguageKit.git",
+    "proposedVersion": "0.2.1",
+    "baseRevision": "2d1a5166448cdccaa81b70756568f0ab2d2ad2a8",
+    "candidateRevision": "ab09ea805b8f89a8008ae7a6ddefe425c4be16b0",
+    "dependencies": [
+      "Grammar",
+      "Lexer",
+      "Parser",
+      "Incremental-Parsing",
+      "Language-Tooling"
+    ],
+    "manifestChanged": true
+  },
+  {
+    "name": "CSS-LanguageKit",
+    "url": "https://github.com/hakkabon/CSS-LanguageKit.git",
+    "proposedVersion": "0.2.1",
+    "baseRevision": "869f66327981141514d84793b6839d78a29bc766",
+    "candidateRevision": "5abc0e101c42ef02ea82f06985e61bbe7a5c56ff",
+    "dependencies": [
+      "Grammar",
+      "Lexer",
+      "Parser",
+      "Incremental-Parsing",
+      "Language-Tooling"
+    ],
+    "manifestChanged": true
+  },
+  {
+    "name": "JSON-LanguageKit",
+    "url": "https://github.com/hakkabon/JSON-LanguageKit.git",
+    "proposedVersion": "0.2.1",
+    "baseRevision": "6d38c3ed19c0dc81b2042d6d65a6b8a064e614b0",
+    "candidateRevision": "5cd2ea76673d3b0aa1f29a1dbcd3b1bf6a5a35f3",
+    "dependencies": [
+      "Grammar",
+      "Lexer",
+      "Incremental-Parsing",
+      "Language-Tooling"
+    ],
+    "manifestChanged": true
+  },
+  {
+    "name": "Grammar-LanguageKit",
+    "url": "https://github.com/hakkabon/Grammar-LanguageKit.git",
+    "proposedVersion": "0.2.1",
+    "baseRevision": "66afe9cd35c3fe8d77f6a2a95e5a1ebc270ac46f",
+    "candidateRevision": "8b1e3da2c3f9d1fdf7b897cc5b76c5d734baa72f",
+    "dependencies": [
+      "Grammar",
+      "Lexer",
+      "Incremental-Parsing",
+      "Language-Tooling"
+    ],
+    "manifestChanged": true
+  },
+  {
+    "name": "ModEdit",
+    "url": "https://github.com/hakkabon/ModEdit.git",
+    "proposedVersion": "0.38.4",
+    "baseRevision": "63a694b2aa7b8ca552d6b08ea67f66aa35677d34",
+    "candidateRevision": "6e8a21e07abf48767ecd90167febe8322a2eaca4",
+    "dependencies": [
+      "PL0-LanguageKit",
+      "Incremental-Parsing",
+      "Language-Tooling",
+      "ModEdit-Bundled-Languages",
+      "JSON-LanguageKit",
+      "Grammar-LanguageKit",
+      "Grammar",
+      "Railroad",
+      "DOT-LanguageKit",
+      "CSS-LanguageKit"
+    ],
+    "manifestChanged": true
+  },
+  {
+    "name": "Grammar-REPL",
+    "url": "https://github.com/hakkabon/Grammar-REPL.git",
+    "proposedVersion": "0.17.1",
+    "baseRevision": "f08eb45d593805ffb648c0c81d8484f42f513173",
+    "candidateRevision": "dac552246fdf0e4aa6d8759bd2d15f5c3d786f57",
+    "dependencies": [
+      "Grammar",
+      "Parser",
+      "Lexer",
+      "Earley-Parser",
+      "CYK-Parser",
+      "RNGLR-Parser",
+      "LR-Parsing",
+      "LL-Parsing",
+      "Earley-TableParser",
+      "Compiler",
+      "PL0-LanguageKit",
+      "Incremental-Parsing",
+      "Language-Tooling",
+      "Grammar-LanguageKit"
+    ],
+    "manifestChanged": true
+  },
+  {
+    "name": "Grammar-Workbench",
+    "url": "https://github.com/hakkabon/Grammar-Workbench.git",
+    "proposedVersion": "1.10.1",
+    "baseRevision": "e624476ef89cbdf3e16b9ca2f5f3c4e484a3c173",
+    "candidateRevision": "13502f8b182696f667ba2889e134fc70ec8fc0e3",
+    "dependencies": [
+      "Grammar",
+      "Parser",
+      "LR-Parsing",
+      "PL0-LanguageKit",
+      "Incremental-Parsing",
+      "Language-Tooling",
+      "Grammar-LanguageKit"
+    ],
+    "manifestChanged": true
+  }
+]
